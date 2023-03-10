@@ -1,9 +1,8 @@
 async function createUser (req, res)  {
 
-    //var { user, pass } = req.body;
-    // logica de login
-    //clave = 2212;
-    let xlogin = new modelLogin({ email: "fabra", password: "fabra", username: "fabrita" })
+    var { email, password, username } = req.body;
+
+    let xlogin = new modelLogin({ email: req.email, password: req.password,  username: req.username })
 
     await xlogin.save((error, createUser) => {
         if (error) {
