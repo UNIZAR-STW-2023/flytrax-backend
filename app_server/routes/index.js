@@ -1,13 +1,11 @@
-const ctrlRoot = require("../controllers/rootController");
-
 var express = require('express');
 var router = express.Router();
+const ctrlUsers = require("../controllers/users");
 
-/* GET home page. */
-router.get('/', ctrlRoot.servirRoot);
-
-/*POST home page */
-router.post('/', ctrlRoot.servirRoot);
+router
+    .route('/users')
+    .get(ctrlUsers.getUsers)
+    //.post(ctrlUsers.postUsers);
 
 module.exports = router;
-
+        
