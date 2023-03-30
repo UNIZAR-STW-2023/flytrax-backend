@@ -5,6 +5,8 @@ const apiOptions = {
 
 /* GET users */
 const getUsers = function(req, res){
+  console.log("Entro a getUsersssssss")
+
     const path = '/api/users';
     const url = apiOptions.server + path;
 
@@ -19,7 +21,8 @@ const getUsers = function(req, res){
 };
 
 /* POST users */
-/*const postUsers = function(req, res) {
+const postUsers = function(req, res) {
+  console.log("Entro a postUserssssssss")
     const path = '/api/users';
     const url = apiOptions.server + path;
     const postdata = {
@@ -27,10 +30,13 @@ const getUsers = function(req, res){
       surname: req.body.surname,
       nickname: req.body.nickname
     };
-  
+    console.log("Esto es el nombre:", req.body.name)
+    console.log("Esto es el apellido:", req.body.surname)
+    console.log("Esto es el nickname:", req.body.nickname)
     if (!postdata.name || !postdata.surname || !postdata.nickname) {
       res.status(404).send("El formato de usuario es incorrecto1...");
     } else {
+      console.log("Voy a hacer la peticion a axios")
       axios.post(url, postdata).then((response) => {
         if (response.status === 201) {
           res.redirect('/users');
@@ -39,10 +45,10 @@ const getUsers = function(req, res){
         }
       });
     }
-  };*/
+  };
 
 module.exports = {
     getUsers,
-    //postUsers
+    postUsers
 };
 

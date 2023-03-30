@@ -5,7 +5,7 @@ const ctrlUsers = require("../controllers/users");
 router
     .route('/users')
     .get(ctrlUsers.getUsers)
-    //.post(ctrlUsers.postUsers);
+    .post(ctrlUsers.postUsers);
 
 module.exports = router;
         
