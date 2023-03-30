@@ -36,22 +36,10 @@ const postUsers = function(req, res) {
     if (!postdata.name || !postdata.surname || !postdata.nickname) {
       res.status(404).send("El formato de usuario es incorrecto1...");
     } else {
-      //OPCION 1
-      /*console.log("Voy a hacer la peticion a axios")
-      axios.post(url, postdata).then((response) => {
-        if (response.status === 201) {
-          res.redirect('/users');
-        } else if (response.status === 400) {
-          res.status(400).send("El formato de usuario es incorrecto2...");
-          console.error(error.response.data);
-        }
-      });*/
-
-      //OPCION 2
       axios.post(url, postdata)
       .then((response) => {
-        if (response.status === 201) {
-          res.redirect('/users');
+        if (response.status === 200) {
+          res.status(200).json(response.data);
         }
         else if(response.status === 500){
           console.log("Entro aquí");

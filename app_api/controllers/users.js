@@ -37,15 +37,13 @@ const postUsers = function (req, res) {
   };
 
   // Insertamos el usuario en la colección "Users"
-  Users.insertOne(user, function(err, result) {
-    if (err) {
-      console.log("Error al insertar el usuario:", err);
-    } else {
-      console.log("Usuario insertado correctamente");
-      // Devolvemos el resultado de la inserción
-      callback(result);
-    }
-  });
+  Users.create(user, function(results) {
+    res
+          .status(200)
+          .json({
+            "User": user,
+          });
+      });      
 
   console.log("Lo he insertadoooooooooooooooooo")
 };
