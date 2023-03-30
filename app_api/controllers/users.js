@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { users } = require('moongose/models');
 const Users = mongoose.model('Users');
 
 const _buildUsersList = function(results) {
@@ -24,20 +23,35 @@ const getUsers = function (req, res) {
       });      
 };
 
-/*const postUsers = function (req, res) {
-    Users.insertOne(
-        { name: req.body.name,
-            surname: req.body.surname,
-            nickname: req.body.nickname
-         }).then(function (res) {
-        res
-          .status(200)
-          .json("Usuario creado con éxito.");
-         });
-  };*/
+const postUsers = function (req, res) {
+  console.log("Entro a la api interna nuestra, a insertar un usuario")
+  console.log("Y voy a insertar: ")
+  console.log("nombre:", req.body.name)
+  console.log("surname:", req.body.surname)
+  console.log("nickname:", req.body.nickname)
+
+  const user = {
+    name: req.body.name,
+    surname: req.body.surname,
+    nickname: req.body.nickname
+  };
+
+  // Insertamos el usuario en la colección "Users"
+  Users.insertOne(user, function(err, result) {
+    if (err) {
+      console.log("Error al insertar el usuario:", err);
+    } else {
+      console.log("Usuario insertado correctamente");
+      // Devolvemos el resultado de la inserción
+      callback(result);
+    }
+  });
+
+  console.log("Lo he insertadoooooooooooooooooo")
+};
 
 
 module.exports = {
     getUsers,
-    //postUsers
+    postUsers
 };
