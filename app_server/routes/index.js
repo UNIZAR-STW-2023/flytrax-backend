@@ -7,5 +7,14 @@ router
     .get(ctrlUsers.getUsers)
     .post(ctrlUsers.postUsers);
 
+router
+    .route('/loginUsers')
+    .post(ctrlUsers.loginUsers);
+
+
+
+
+
+
 module.exports = router;
         
