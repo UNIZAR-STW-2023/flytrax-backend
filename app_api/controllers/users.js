@@ -30,8 +30,6 @@ const getUsers = function (req, res) {
 };
 
 const postUsers = function (req, res) {
-  console.log("Entro a la api interna nuestra, a insertar un usuario")
-
   const user = {
     name: req.body.name,
     surname: req.body.surname,
@@ -43,8 +41,6 @@ const postUsers = function (req, res) {
     password: req.body.password,
     gender: req.body.gender
   };
-  console.log(user)
-
 
   // Insertamos el usuario en la colección "Users"
   Users.create(user, function(results) {
@@ -52,31 +48,36 @@ const postUsers = function (req, res) {
             "User": user,
           });
       });      
-
-  console.log("Lo he insertadoooooooooooooooooo")
 };
 
+//Función todavía no funcionando correctamente
+const getUsersByEmail = function (req, res) {
+  const user = {
+    email: req.params.email,
+  };
+  Users.findOne(user).then(function (results) {
+    res
+      .status(200)
+      .json(results);
+  });
+}
 
 const loginUsers = function (req, res) {
-  console.log("Entro a la api interna nuestra, a loguear un usuario")
-
   const user = {
     email: req.body.email,
   };
-  console.log(user)
 
-  // Insertamos el usuario en la colección "Users"
+  //Buscamos si existe el usuario con ese email
   Users.findOne(user).then(function (results) {
     res
       .status(200)
       .json(results);
   });        
-
-  console.log("Lo he insertadoooooooooooooooooo")
 };
 
 module.exports = {
     getUsers,
     postUsers,
+    getUsersByEmail,
     loginUsers
 };

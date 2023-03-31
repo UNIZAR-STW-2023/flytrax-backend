@@ -7,13 +7,14 @@ router
     .get(ctrlUsers.getUsers)
     .post(ctrlUsers.postUsers);
 
+//Función todavía no funcionando correctamente
+router
+    .route('/usersByEmail/:email')
+    .get(ctrlUsers.getUsersByEmail);
+
 router
     .route('/loginUsers')
     .get(ctrlUsers.loginUsers);
-
-
-
-
 
 
 module.exports = router;
