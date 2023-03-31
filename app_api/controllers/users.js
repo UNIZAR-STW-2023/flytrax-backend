@@ -69,7 +69,7 @@ const loginUsers = function (req, res) {
   Users.findOne(user).then(function (results) {
     res
       .status(200)
-      .json(results.password);
+      .json(results);
   });        
 
   console.log("Lo he insertadoooooooooooooooooo")

@@ -9,7 +9,7 @@ router
 
 router
     .route('/loginUsers')
-    .post(ctrlUsers.loginUsers);
+    .get(ctrlUsers.loginUsers);
 
 
 

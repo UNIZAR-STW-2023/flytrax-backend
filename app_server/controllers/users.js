@@ -77,19 +77,21 @@ const loginUsers = function(req, res) {
       email: req.body.email,
       password: req.body.password
     };
-
+    console.log("Estoy en la api externa")
     console.log("Esto es el postdata: ", postdata)
 
     if (!postdata.email) {
       res.status(404).send("El email es incorrecto1...");
     } else {
-      axios.get(url, postdata)
+      axios.post(url, postdata)
       .then((response) => {
-        console.log("me han respondido desde api interna")
         if (response.status === 200) {
-          passwordRecovered = response.data;
+          console.log("me han respondido desde api interna: ", response.data.password)
+          passwordRecovered = response.data.password;
           if (bcrypt.compareSync(postdata.password, passwordRecovered)){
             res.status(200).json("Login sucessful");
+          }else{
+            res.status(401).json("Email o contraseña incorrectos");
           }
         }
         else if(response.status === 500){
