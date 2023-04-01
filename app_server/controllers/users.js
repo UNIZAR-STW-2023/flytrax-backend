@@ -1,5 +1,6 @@
 const axios = require('axios');
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
 
 const apiOptions = {
   server : 'http://localhost:3000'
@@ -101,7 +102,18 @@ const loginUsers = function(req, res) {
         if (response.status === 200) {
           passwordRecovered = response.data.password;
           if (bcrypt.compareSync(postdata.password, passwordRecovered)){
-            res.status(200).json("Login sucessful.");
+            //Creamos el token de JWT
+            email = postdata.email
+            let token = jwt.sign({
+              email
+          }, 'stw2023', {expiresIn: '48h'});
+
+            jsonResponse = {
+              "status": "Sucessful",
+              "email": postdata.email,
+              "token": token
+            }
+            res.status(200).json(jsonResponse);
           }else{
             res.status(401).json("Email o contraseña incorrectos...");
           }
