@@ -64,19 +64,22 @@ const postUsers = function(req, res) {
     }
   };
 
-//Función todavía no funcionando correctamente
 /* GET users BY email*/
 const getUsersByEmail = function(req, res){
   const path = `/api/usersByEmail/${req.params.email}`;
   const url = apiOptions.server + path;
 
-  axios.get(url, {}).then((response) => {
+  axios.get(url, {})
+  .then((response) => {
     if (response.data.length > 0) {
       res.status(200).json(response.data);
-  }
-  else{
-      res.status(404).send("No hemos encontrado ningún usuario con ese email...");
-  }
+    }
+    else{
+        res.status(404).send("No hemos encontrado ningún usuario con ese email...");
+    }
+  })
+  .catch((error) => {
+    console.error(`Error: ${error.message}`);
   });
 };
 

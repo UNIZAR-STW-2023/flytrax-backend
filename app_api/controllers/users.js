@@ -50,12 +50,11 @@ const postUsers = function (req, res) {
       });      
 };
 
-//Función todavía no funcionando correctamente
 const getUsersByEmail = function (req, res) {
   const user = {
     email: req.params.email,
   };
-  Users.findOne(user).then(function (results) {
+  Users.find(user).then(function (results) {
     res
       .status(200)
       .json(results);
