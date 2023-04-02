@@ -104,7 +104,7 @@ const resetPasswordByEmail = async function (req, res) {
   res.json("Introducido correctamente")
   const link = `${clientURL}/passwordReset?token=${resetToken}&id=${id}`;
   console.log("link: ", link)
-  sendEmail(user.email,"Password Reset Request",{name: user.email,link: link,},"./template/requestResetPassword.handlebars");
+  sendEmail(user.email,"Password Reset Request",{name: user.email,link: link,},"./templates/email_template.handlebars");
   return link;
 }
 
