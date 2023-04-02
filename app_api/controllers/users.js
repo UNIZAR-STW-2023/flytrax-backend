@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Users = mongoose.model('Users');
+const Token = mongoose.model('Token');
 
 const _buildUsersList = function(results) {
     let users = [];
@@ -50,6 +51,7 @@ const postUsers = function (req, res) {
       });      
 };
 
+
 const getUsersByEmail = function (req, res) {
   const user = {
     email: req.params.email,
@@ -60,6 +62,36 @@ const getUsersByEmail = function (req, res) {
       .json(results);
   });
 }
+
+const resetPasswordByEmail = function (req, res) {
+  const user = {
+    email: req.params.email,
+  };
+
+  const user2 = Users.findOne(user);
+
+  if (!user2) {
+      throw new Error("No existe el usuario...");
+  }
+  let token =  Token.findOne({ userId: user2._id });
+  if (token) { 
+         token.deleteOne()
+  };
+
+  let resetToken = crypto.randomBytes(32).toString("hex");
+  const hash = bcrypt.hash(resetToken, Number(bcryptSalt));
+
+  new Token({
+    userId: user._id,
+    token: hash,
+    createdAt: Date.now(),
+  }).save();
+
+  const link = `${clientURL}/passwordReset?token=${resetToken}&id=${user._id}`;
+  sendEmail(user.email,"Password Reset Request",{name: user.name,link: link,},"./template/requestResetPassword.handlebars");
+  return link;
+}
+
 
 const loginUsers = function (req, res) {
   const user = {
@@ -78,5 +110,6 @@ module.exports = {
     getUsers,
     postUsers,
     getUsersByEmail,
+    resetPasswordByEmail,
     loginUsers
 };

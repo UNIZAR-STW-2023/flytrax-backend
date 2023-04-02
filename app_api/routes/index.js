@@ -13,6 +13,10 @@ router
   .get(ctrlUsers.getUsersByEmail);
 
 router
+  .route('/resetPasswordByEmail/:email')
+  .post(ctrlUsers.resetPasswordByEmail);
+
+router
   .route('/loginUsers')
   .post(ctrlUsers.loginUsers);
 

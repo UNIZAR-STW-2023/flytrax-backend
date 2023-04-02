@@ -84,6 +84,27 @@ const getUsersByEmail = function(req, res){
   });
 };
 
+/* RESET password BY email*/
+const resetPasswordByEmail = function(req, res){
+  const path = `/api/resetPasswordByEmail/${req.params.email}`;
+  const url = apiOptions.server + path;
+
+  //TO DO: cambiar cosas
+  axios.post(url, {})
+  .then((response) => {
+    if (response.data.length > 0) {
+      res.status(200).json(response.data);
+    }
+    else{
+        res.status(404).send("No hemos encontrado ningún usuario con ese email...");
+    }
+  })
+  .catch((error) => {
+    console.error(`Error: ${error.message}`);
+  });
+};
+
+
 /* LOGIN users */
 const loginUsers = function(req, res) {
     const path = '/api/loginUsers';
@@ -136,6 +157,7 @@ module.exports = {
     getUsers,
     postUsers,
     getUsersByEmail,
+    resetPasswordByEmail,
     loginUsers
 };
 
