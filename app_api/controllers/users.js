@@ -1,6 +1,15 @@
 const mongoose = require('mongoose');
 const Users = mongoose.model('Users');
 const Token = mongoose.model('Token');
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
+const sendEmail = require('../Utils/emails.js');
+
+const { stringify } = require('querystring');
+
+const bcryptSalt = 10
+const clientURL = "https://localhost:3000"
+
 
 const _buildUsersList = function(results) {
     let users = [];
@@ -63,32 +72,39 @@ const getUsersByEmail = function (req, res) {
   });
 }
 
-const resetPasswordByEmail = function (req, res) {
+const resetPasswordByEmail = async function (req, res) {
   const user = {
     email: req.params.email,
   };
-
-  const user2 = Users.findOne(user);
-
-  if (!user2) {
+  var id = ""
+  try {
+    const results = await Users.find(user); // realizar la consulta a la base de datos y esperar la respuesta
+    id = results[0]._id.toString(); // obtener el campo "id" del primer resultado
+    // hacer algo más con el valor de "id" aquí dentro de la función
+  } catch (error) {
+    console.log("Error:", error);
+  }
+  if (!id) {
       throw new Error("No existe el usuario...");
   }
-  let token =  Token.findOne({ userId: user2._id });
-  if (token) { 
-         token.deleteOne()
-  };
+  let token = await Token.findOne({ userId: id });
+  if (token) {
+    await token.deleteOne();
+  }
 
   let resetToken = crypto.randomBytes(32).toString("hex");
-  const hash = bcrypt.hash(resetToken, Number(bcryptSalt));
+  const hash = bcrypt.hashSync(resetToken, Number(bcryptSalt));
 
   new Token({
-    userId: user._id,
+    userId: id,
     token: hash,
     createdAt: Date.now(),
   }).save();
 
-  const link = `${clientURL}/passwordReset?token=${resetToken}&id=${user._id}`;
-  sendEmail(user.email,"Password Reset Request",{name: user.name,link: link,},"./template/requestResetPassword.handlebars");
+  res.json("Introducido correctamente")
+  const link = `${clientURL}/passwordReset?token=${resetToken}&id=${id}`;
+  console.log("link: ", link)
+  sendEmail(user.email,"Password Reset Request",{name: user.email,link: link,},"./template/requestResetPassword.handlebars");
   return link;
 }
 

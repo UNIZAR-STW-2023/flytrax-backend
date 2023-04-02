@@ -53,4 +53,4 @@ usersSchema.pre("save", async function (next) {
 });
 
 
-mongoose.model('Users', usersSchema);
+module.exports = mongoose.model( "Users" , usersSchema);
