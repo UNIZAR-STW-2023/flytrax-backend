@@ -6,6 +6,12 @@ var lessMiddleware = require('less-middleware');
 var logger = require('morgan');
 require('./app_api/models/db');
 
+const cors = require("cors");
+const https = require("https");
+const fs = require("fs");
+
+const PORT = process.env.PORT || 3050;
+
 const index = require('./app_server/routes/index');
 const apiRoutes = require('./app_api/routes/index');
 
@@ -15,6 +21,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'app_server' ,'views'));
 app.set('view engine', 'hbs');
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -40,5 +47,20 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//NO FUNCIONA TODAVIA CORRECTAMENTE (creo que no entra en la certRenewer.js)
+const renewCert = require('./security/certRenewer');
+// Check for certificate expiration and renew it if necessary every 24 hours
+setInterval(renewCert, 24 * 60 * 60 * 1000);
+
+const sslServer = https.createServer(
+  {
+    key: fs.readFileSync(path.resolve("./security/key.pem")),
+    cert: fs.readFileSync(path.resolve("./security/cert.pem")),
+  },
+  app
+);
+
+sslServer.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
 module.exports = app;

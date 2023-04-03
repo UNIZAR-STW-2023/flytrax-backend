@@ -89,7 +89,6 @@ const resetPasswordByEmail = function(req, res){
   const path = `/api/resetPasswordByEmail/${req.params.email}`;
   const url = apiOptions.server + path;
 
-  //TO DO: cambiar cosas
   axios.post(url, {})
   .then((response) => {
     if (response.data.length > 0) {
