@@ -20,4 +20,8 @@ router
   .route('/loginUsers')
   .post(ctrlUsers.loginUsers);
 
+router
+  .route('/resetPassword')
+  .post(ctrlUsers.resetPassword);
+
 module.exports = router;

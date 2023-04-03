@@ -85,11 +85,37 @@ const getUsersByEmail = function(req, res){
 };
 
 /* RESET password BY email*/
-const resetPasswordByEmail = function(req, res){
+const resetPasswordByEmail = async function(req, res){
   const path = `/api/resetPasswordByEmail/${req.params.email}`;
   const url = apiOptions.server + path;
 
-  axios.post(url, {})
+  await axios.post(url, {})
+  .then((response) => {
+    console.log("Lo que me devuelve es: ", response.data)
+    if (response.data) {
+      res.status(200).json(response.data);
+    }
+    else{
+        res.status(404).send("No hemos encontrado ningún usuario con ese email...");
+    }
+  })
+  .catch((error) => {
+    console.error(`Error: ${error.message}`);
+  });
+};
+
+const resetPassword = function(req, res){
+  const path = '/api/resetPassword';
+  const url = apiOptions.server + path;
+
+  const postdata = {
+    id: req.body.id,
+    token: req.body.token,
+    password:req.body.password
+  };
+
+
+  axios.post(url, postdata)
   .then((response) => {
     if (response.data.length > 0) {
       res.status(200).json(response.data);
@@ -157,6 +183,7 @@ module.exports = {
     postUsers,
     getUsersByEmail,
     resetPasswordByEmail,
-    loginUsers
+    loginUsers,
+    resetPassword
 };
 

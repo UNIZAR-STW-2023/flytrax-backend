@@ -19,6 +19,9 @@ router
     .route('/loginUsers')
     .get(ctrlUsers.loginUsers);
 
+router
+    .route('/resetPassword')
+    .post(ctrlUsers.resetPassword);
 
 module.exports = router;
         

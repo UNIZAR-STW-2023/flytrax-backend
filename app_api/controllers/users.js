@@ -5,7 +5,6 @@ const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const sendEmail = require('../Utils/emails.js');
 
-const { stringify } = require('querystring');
 
 const bcryptSalt = 10
 const clientURL = "https://localhost:3000"
@@ -101,12 +100,47 @@ const resetPasswordByEmail = async function (req, res) {
     createdAt: Date.now(),
   }).save();
 
-  res.json("Introducido correctamente")
-  const link = `${clientURL}/passwordReset?token=${resetToken}&id=${id}`;
-  console.log("link: ", link)
+  const link = `${clientURL}/restore-passwd?token=${resetToken}&id=${id}`;
   sendEmail(user.email,"Password Reset Request",{name: user.email,link: link,},"./templates/email_template.handlebars");
-  return link;
+
+  res.status(200).json({"link": link});
 }
+
+const resetPassword = async (req, res) => {
+  console.log(req.body.id)
+  console.log(req.body.token)
+  console.log(req.body.password)
+  id = req.body.id
+  token = req.body.token
+  password = req.body.password
+
+   let passwordResetToken = await Token.findOne({ userId: id });
+
+   if (!passwordResetToken) {
+     throw new Error("Invalid or expired password reset token");
+   }
+
+   if (token != passwordResetToken.token) {
+     throw new Error("Invalid or expired password reset token");
+   }
+   const hash = await bcrypt.hash(password, Number(bcryptSalt));
+   await Users.updateOne(
+     { _id: id },
+     { $set: { password: hash } },
+     { new: true }
+   );
+   const user = await Users.findById({ _id: id });
+   sendEmail(
+     user.email,
+     "Contraseña actualizada correctamente",
+     {name: user.email},
+     "./templates/email_template_reset.handlebars"
+   );
+   await passwordResetToken.deleteOne();
+  res.json("Contraseña actualizada correctamente")
+};
+  
+
 
 
 const loginUsers = function (req, res) {
@@ -127,5 +161,6 @@ module.exports = {
     postUsers,
     getUsersByEmail,
     resetPasswordByEmail,
-    loginUsers
+    loginUsers,
+    resetPassword
 };
