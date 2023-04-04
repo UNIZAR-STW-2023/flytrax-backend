@@ -17,6 +17,10 @@ const apiRoutes = require('./app_api/routes/index');
 
 var app = express();
 
+app.get("/", (req, res) => {
+  res.send("Flytrax backend running!");
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'app_server' ,'views'));
 app.set('view engine', 'hbs');
