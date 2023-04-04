@@ -53,7 +53,7 @@ app.use(function(err, req, res, next) {
 });
 
 //NO FUNCIONA TODAVIA CORRECTAMENTE (creo que no entra en la certRenewer.js)
-/*const renewCert = require('./security/certRenewer');
+const renewCert = require('./security/certRenewer');
 // Check for certificate expiration and renew it if necessary every 24 hours
 setInterval(renewCert, 24 * 60 * 60 * 1000);
 
@@ -65,6 +65,6 @@ const sslServer = https.createServer(
   app
 );
 
-sslServer.listen(PORT, () => console.log(`Server listening on port ${PORT}`));*/
+sslServer.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
 module.exports = app;
