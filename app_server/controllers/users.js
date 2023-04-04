@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const apiOptions = {
   //server : 'http://localhost:3000'
-  server : 'https://flytrax-backend.vercel.app/'
+  server : 'https://flytrax-backend.vercel.app'
 };
 const saltRounds = 10;
 
