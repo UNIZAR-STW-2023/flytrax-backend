@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var dbURI = "mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority";
+const dbURI = 'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
 
 if (process.env.NODE_ENV === 'production') {
