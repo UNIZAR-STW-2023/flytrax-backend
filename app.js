@@ -17,6 +17,7 @@ const apiRoutes = require('./app_api/routes/index');
 
 var app = express();
 
+//Función para el home
 app.get("/", (req, res) => {
   res.send("Flytrax backend running!");
 });
