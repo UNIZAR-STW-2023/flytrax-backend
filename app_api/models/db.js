@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
 //Para que lance al menos la pantalla '/' en vercel habría que ponerle 'var dbURI'
-const dbURI =
+// const dbURI =
+//   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
+
+var dbURI =
   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
+
 
 if (process.env.NODE_ENV === "production") {
   dbURI = process.env.MONGODB_URI;
@@ -55,3 +59,7 @@ process.on("SIGTERM", () => {
 
 require("./users");
 require("./token");
+
+module.exports ={
+   dbURI :'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority'
+}
