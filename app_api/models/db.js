@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //Para que lance al menos la pantalla '/' en vercel habría que ponerle 'var dbURI'
-let dbURI =
+const dbURI =
   "mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority";
 
 if (process.env.NODE_ENV === "production") {

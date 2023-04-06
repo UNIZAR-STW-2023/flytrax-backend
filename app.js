@@ -1,19 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var lessMiddleware = require('less-middleware');
-var logger = require('morgan');
-require('./app_api/models/db');
+var createError = require("http-errors");
+var express = require("express");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var lessMiddleware = require("less-middleware");
+var logger = require("morgan");
+require("./app_api/models/db");
 
 const cors = require("cors");
 const https = require("https");
 const fs = require("fs");
 
-const PORT = process.env.PORT || 3050;
+const PORT = process.env.PORT || 3051;
 
-const index = require('./app_server/routes/index');
-const apiRoutes = require('./app_api/routes/index');
+const index = require("./app_server/routes/index");
+const apiRoutes = require("./app_api/routes/index");
 
 var app = express();
 
@@ -23,38 +23,38 @@ app.get("/", (req, res) => {
 });
 
 // view engine setup
-app.set('views', path.join(__dirname, 'app_server' ,'views'));
-app.set('view engine', 'hbs');
+app.set("views", path.join(__dirname, "app_server", "views"));
+app.set("view engine", "hbs");
 
 app.use(cors());
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(lessMiddleware(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(lessMiddleware(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', index);
-app.use('/api', apiRoutes);
+app.use("/", index);
+app.use("/api", apiRoutes);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render("error");
 });
 
 //NO FUNCIONA TODAVIA CORRECTAMENTE (creo que no entra en la certRenewer.js)
-const renewCert = require('./security/certRenewer');
+const renewCert = require("./security/certRenewer");
 // Check for certificate expiration and renew it if necessary every 24 hours
 setInterval(renewCert, 24 * 60 * 60 * 1000);
 
