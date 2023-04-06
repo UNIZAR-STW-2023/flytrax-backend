@@ -17,7 +17,7 @@ router
 
 router
     .route('/loginUsers')
-    .get(ctrlUsers.loginUsers);
+    .post(ctrlUsers.loginUsers);
 
 router
     .route('/resetPassword')
