@@ -6,8 +6,8 @@ const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
 
 const bcryptSalt = 10;
-//const clientURL = "http://localhost:3000";
- const clientURL = "https://flytraxserver-758723.b4a.run"; 
+const clientURL = "http://localhost:3000";
+// const clientURL = "https://flytraxserver-758723.b4a.run"; 
 
 const _buildUsersList = function (results) {
   let users = [];
@@ -47,6 +47,7 @@ const postUsers = function (req, res) {
     password: req.body.password,
     gender: req.body.gender,
   };
+  console.log("Lo que meto a la base de datos es esto: ", user.password)
 
   // Insertamos el usuario en la colección "Users"
   Users.create(user, function (results) {

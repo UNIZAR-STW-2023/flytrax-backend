@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const apiOptions = {
-  //server: "http://localhost:3000",
-   server : 'https://flytraxserver-758723.b4a.run'
+  server: "http://localhost:3000",
+   //server : 'https://flytraxserver-758723.b4a.run'
    
 };
 const saltRounds = 10;
@@ -29,6 +29,7 @@ const postUsers = function (req, res) {
   const url = apiOptions.server + path;
 
   const passwordHash = bcrypt.hashSync(req.body.password, saltRounds);
+  console.log(passwordHash)
 
   const postdata = {
     name: req.body.name,
@@ -154,11 +155,15 @@ const loginUsers = function (req, res) {
   if (!postdata.email) {
     res.status(404).send("El email es incorrecto...");
   } else {
+    
     axios
       .post(url, postdata)
       .then((response) => {
         if (response.status === 200) {
           passwordRecovered = response.data.password;
+          const hash =  bcrypt.hashSync(postdata.password, 10);
+          console.log(hash)
+          console.log(passwordRecovered)
           if (bcrypt.compareSync(postdata.password, passwordRecovered)) {
             //Creamos el token de JWT
             email = postdata.email;
