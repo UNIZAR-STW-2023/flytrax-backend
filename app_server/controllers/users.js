@@ -3,8 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const apiOptions = {
-  server: "http://localhost:3000",
-   //server : 'https://flytrax-backend.vercel.app' 
+  //server: "http://localhost:3000",
+   server : 'https://flytraxserver-758723.b4a.run'
+   
 };
 const saltRounds = 10;
 
