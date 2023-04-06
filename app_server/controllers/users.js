@@ -28,7 +28,6 @@ const postUsers = function (req, res) {
   const url = apiOptions.server + path;
 
   const passwordHash = bcrypt.hashSync(req.body.password, saltRounds);
-  console.log(passwordHash);
 
   const postdata = {
     name: req.body.name,
@@ -159,9 +158,6 @@ const loginUsers = function (req, res) {
       .then((response) => {
         if (response.status === 200) {
           passwordRecovered = response.data.password;
-          const hash = bcrypt.hashSync(postdata.password, 10);
-          console.log(hash);
-          console.log(passwordRecovered);
           if (bcrypt.compareSync(postdata.password, passwordRecovered)) {
             //Creamos el token de JWT
             email = postdata.email;

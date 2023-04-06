@@ -43,14 +43,4 @@ const usersSchema = new mongoose.Schema({
   }
 });
 
-usersSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next();
-  }
-  const hash = await bcrypt.hash(this.password, Number(bcryptSalt));
-  this.password = hash;
-  next();
-});
-
-
 module.exports = mongoose.model( "Users" , usersSchema);

@@ -19,7 +19,7 @@ var app = express();
 
 //Función para el home
 app.get("/", (req, res) => {
-  res.send("Flytrax backend running!");
+  res.send("Flytrax backend runnnnnning!");
 });
 
 // view engine setup

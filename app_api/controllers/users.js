@@ -47,7 +47,6 @@ const postUsers = function (req, res) {
     password: req.body.password,
     gender: req.body.gender,
   };
-  console.log("Lo que meto a la base de datos es esto: ", user.password);
 
   // Insertamos el usuario en la colección "Users"
   Users.create(user, function (results) {
