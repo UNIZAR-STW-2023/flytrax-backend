@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // const dbURI =
 //   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
-var dbURI =
+const dbURI =
   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
 
@@ -59,7 +59,3 @@ process.on("SIGTERM", () => {
 
 require("./users");
 require("./token");
-
-module.exports ={
-   dbURI :'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority'
-}
