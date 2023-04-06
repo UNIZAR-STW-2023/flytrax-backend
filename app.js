@@ -10,7 +10,7 @@ const cors = require("cors");
 const https = require("https");
 const fs = require("fs");
 
-const PORT = process.env.PORT || 8000;
+const PORT = 8000;
 
 const index = require("./app_server/routes/index");
 const apiRoutes = require("./app_api/routes/index");

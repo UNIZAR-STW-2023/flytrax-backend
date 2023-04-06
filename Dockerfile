@@ -11,6 +11,7 @@ COPY . .
 # Instala las dependencias de la aplicación
 RUN npm install
 
+EXPOSE 8000
 
 # Ejecuta la aplicación
 CMD ["npm", "start"]
