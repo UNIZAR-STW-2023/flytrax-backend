@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Users = mongoose.model("Users");
 const Token = mongoose.model("Token");
+//const FavAirports = mongoose.model("FavAirports");
+const FavAirports = require('../models/favAirports');
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
@@ -150,6 +152,27 @@ const loginUsers = function (req, res) {
   });
 };
 
+const saveAirports = async (req, res) => {
+  console.log("Voy a entrar a guardar un aeropuerto brother")
+  console.log(req.body.email);
+  console.log(req.body.iata);
+  email = req.body.email;
+  iata = req.body.iata
+  const postData = {
+    "email": email,
+    "iata": iata
+  }
+  FavAirports.create(postData, function (results) {
+    res.status(200).json({
+      "status": "Introducido correctamente",
+      "email": email,
+      "iata": iata
+    });
+  });
+
+
+};
+
 module.exports = {
   getUsers,
   postUsers,
@@ -157,4 +180,5 @@ module.exports = {
   resetPasswordByEmail,
   loginUsers,
   resetPassword,
+  saveAirports
 };

@@ -190,6 +190,36 @@ const loginUsers = function (req, res) {
   }
 };
 
+/* LOGIN users */
+const saveAirports = function (req, res) {
+  const path = "/api/saveAirports";
+  const url = apiOptions.server + path;
+
+  const postdata = {
+    email: req.body.email,
+    iata: req.body.iata,
+  };
+
+  if (!postdata.email || !postdata.iata) {
+    res.status(404).send("Faltan campos. Imposible guardar");
+  } else {
+    axios
+    .post(url, postdata)
+    .then((response) => {
+      if (response.data) {
+        res.status(200).json(response.data);
+      } else {
+        res
+          .status(404)
+          .send("No hemos encontrado ningún usuario con ese email...");
+      }
+    })
+    .catch((error) => {
+      console.error(`Error: ${error.message}`);
+    });
+  }
+}
+
 module.exports = {
   getUsers,
   postUsers,
@@ -197,4 +227,5 @@ module.exports = {
   resetPasswordByEmail,
   loginUsers,
   resetPassword,
+  saveAirports
 };

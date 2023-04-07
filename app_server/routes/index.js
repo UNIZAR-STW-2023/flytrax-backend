@@ -23,5 +23,9 @@ router
     .route('/resetPassword')
     .post(ctrlUsers.resetPassword);
 
+router
+    .route('/saveAirports')
+    .post(ctrlUsers.saveAirports);
+
 module.exports = router;
         

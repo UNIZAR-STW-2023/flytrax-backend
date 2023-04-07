@@ -24,4 +24,9 @@ router
   .route('/resetPassword')
   .post(ctrlUsers.resetPassword);
 
+//AirLabs
+router
+  .route('/saveAirports')
+  .post(ctrlUsers.saveAirports);
+
 module.exports = router;
