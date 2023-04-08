@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const ctrlUsers = require('../controllers/users');
+const ctrlForo = require('../controllers/foro');
+
 
 // users
 router
@@ -24,9 +26,15 @@ router
   .route('/resetPassword')
   .post(ctrlUsers.resetPassword);
 
+//Foro
+router
+  .route('/createTopics')
+  .post(ctrlForo.createTopics);
+
 //AirLabs
 router
   .route('/saveAirports')
   .post(ctrlUsers.saveAirports);
+
 
 module.exports = router;

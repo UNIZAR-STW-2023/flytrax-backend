@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const ctrlUsers = require("../controllers/users");
+const ctrlForo = require("../controllers/foro");
 
 router
     .route('/users')
@@ -23,6 +24,12 @@ router
     .route('/resetPassword')
     .post(ctrlUsers.resetPassword);
 
+//Foro
+router
+  .route('/createTopics')
+  .post(ctrlForo.createTopics);
+
+//AirLabs
 router
     .route('/saveAirports')
     .post(ctrlUsers.saveAirports);

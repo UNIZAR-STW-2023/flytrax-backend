@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const Users = mongoose.model("Users");
 const Token = mongoose.model("Token");
-//const FavAirports = mongoose.model("FavAirports");
 const FavAirports = require('../models/favAirports');
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
