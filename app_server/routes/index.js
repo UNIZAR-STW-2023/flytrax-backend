@@ -29,6 +29,18 @@ router
   .route('/createTopics')
   .post(ctrlForo.createTopics);
 
+router
+  .route('/createAnswers')
+  .post(ctrlForo.createAnswers);
+
+router
+  .route('/topics')
+  .get(ctrlForo.getTopics)
+
+router
+    .route('/getAnswersByTopic/:topicId')
+    .get(ctrlForo.getAnswersByTopic);
+
 //AirLabs
 router
     .route('/saveAirports')

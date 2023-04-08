@@ -35,7 +35,77 @@ const createTopics = function (req, res) {
     });
 };
 
+/* CREATE ANSWERS */
+const createAnswers = function (req, res) {
+  const path = "/api/createAnswers";
+  const url = apiOptions.server + path;
+
+  userId = req.body.userId
+  topicId = req.body.topicId
+  content = req.body.content
+  date = req.body.date
+
+  const postData = {
+    userId: userId,
+    topicId: topicId,
+    content: content,
+    date: date
+  }
+
+  axios
+    .post(url, postData)
+    .then((response) => {
+      if (response.data) {
+        res.status(200).json(response.data);
+      } else {
+        res
+          .status(404)
+          .send("No se ha podido crear la respuesta");
+      }
+    })
+    .catch((error) => {
+      console.error(`Error: ${error.message}`);
+    });
+};
+
+/* GET users */
+const getTopics = function (req, res) {
+  const path = "/api/topics";
+  const url = apiOptions.server + path;
+
+  axios.get(url, {}).then((response) => {
+    if (response.data) {
+      res.status(200).json(response.data);
+    } else {
+      res.status(404).send("No hemos encontrado ningún tema...");
+    }
+  });
+};
+
+/* GET users BY email*/
+const getAnswersByTopic = function (req, res) {
+  const path = `/api/getAnswersByTopic/${req.params.topicId}`;
+  const url = apiOptions.server + path;
+
+  axios
+    .get(url, {})
+    .then((response) => {
+      if (response.data) {
+        res.status(200).json(response.data);
+      } else {
+        res
+          .status(404)
+          .send("No hemos encontrado ningún tema con ese id...");
+      }
+    })
+    .catch((error) => {
+      console.error(`Error: ${error.message}`);
+    });
+};
 
 module.exports = {
-  createTopics
+  createTopics,
+  createAnswers,
+  getTopics,
+  getAnswersByTopic
 };

@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const answersSchema = new mongoose.Schema({
-  description: {
+  content: {
     type: String,
     required: true,
   },
-  fecha_creacion: {
+  date: {
     type: String,
     required: true,
   },
