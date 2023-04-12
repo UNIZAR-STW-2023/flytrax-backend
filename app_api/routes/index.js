@@ -4,7 +4,7 @@ const ctrlUsers = require('../controllers/users');
 const ctrlForo = require('../controllers/foro');
 
 
-// users
+//Users
 router
   .route('/users')
   .get(ctrlUsers.getUsers)
@@ -25,6 +25,17 @@ router
 router
   .route('/resetPassword')
   .post(ctrlUsers.resetPassword);
+
+
+router
+  .route('/banUsers')
+  .post(ctrlUsers.banUsers)
+  .get(ctrlUsers.getBannedUsers);
+
+
+router
+  .route('/unBanUsers')
+  .post(ctrlUsers.unBanUsers);
 
 //Foro
 router

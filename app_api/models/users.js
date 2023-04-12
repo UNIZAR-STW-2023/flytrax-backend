@@ -40,6 +40,11 @@ const usersSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: true
+  },
+  banned: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 

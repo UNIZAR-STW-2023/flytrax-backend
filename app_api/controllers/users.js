@@ -23,6 +23,7 @@ const _buildUsersList = function (results) {
       country: doc.country,
       gender: doc.gender,
       password: doc.password,
+      banned: doc.banned,
       _id: doc._id,
     });
   });
@@ -151,6 +152,61 @@ const loginUsers = function (req, res) {
   });
 };
 
+
+const banUsers = function (req, res) {
+  const email = req.body.email;
+  console.log(email) 
+
+  Users.findOneAndUpdate(
+    { email: email }, // busca el usuario con el correo electrónico especificado
+    { banned: true }, // actualiza el campo banned a true
+    { new: true }, // devuelve el usuario actualizado en lugar del usuario original
+    function (err, user) {
+      if (err) {
+        // maneja el error si lo hay
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+      }
+      if (!user) {
+        // si no se encuentra ningún usuario con el correo electrónico especificado, devuelve un error
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+      // si se actualizó el usuario correctamente, devuelve el usuario actualizado
+      return res.json({ "status": 'Usuario baneado correctamente', user});
+    }
+  );
+};
+
+const unBanUsers = function (req, res) {
+  const email = req.body.email;
+
+  Users.findOneAndUpdate(
+    { email: email }, // busca el usuario con el correo electrónico especificado
+    { banned: false }, // actualiza el campo banned a true
+    { new: true }, // devuelve el usuario actualizado en lugar del usuario original
+    function (err, user) {
+      if (err) {
+        // maneja el error si lo hay
+        console.error(err);
+        return res.status(500).json({ message: 'Error interno del servidor' });
+      }
+      if (!user) {
+        // si no se encuentra ningún usuario con el correo electrónico especificado, devuelve un error
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+      // si se actualizó el usuario correctamente, devuelve el usuario actualizado
+      return res.json({ "status": 'Usuario desbaneado correctamente', user});
+    }
+  );
+};
+
+const getBannedUsers = function (req, res) {
+  Users.find({banned: true}).then(function (results) {
+    res.status(200).json(results);
+  });
+};
+
+
 const saveAirports = async (req, res) => {
   console.log("Voy a entrar a guardar un aeropuerto brother")
   console.log(req.body.email);
@@ -179,5 +235,8 @@ module.exports = {
   resetPasswordByEmail,
   loginUsers,
   resetPassword,
+  banUsers,
+  unBanUsers,
+  getBannedUsers,
   saveAirports
 };

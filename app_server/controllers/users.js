@@ -158,7 +158,8 @@ const loginUsers = function (req, res) {
       .then((response) => {
         if (response.status === 200) {
           passwordRecovered = response.data.password;
-          if (bcrypt.compareSync(postdata.password, passwordRecovered)) {
+          banned = response.data.banned
+          if (bcrypt.compareSync(postdata.password, passwordRecovered) && !banned) {
             //Creamos el token de JWT
             email = postdata.email;
             let token = jwt.sign(
@@ -176,7 +177,11 @@ const loginUsers = function (req, res) {
             };
             res.status(200).json(jsonResponse);
           } else {
-            res.status(401).json("Email o contraseña incorrectos...");
+              if (banned){
+                res.status(401).json("El usuario no existe o ha eliminado su cuenta");
+              }else{
+                res.status(401).json("Email o contraseña incorrectos...");
+              }
           }
         } else if (response.status === 500) {
           res.status(500).json(response.data);
@@ -190,7 +195,69 @@ const loginUsers = function (req, res) {
   }
 };
 
-/* LOGIN users */
+/* banUsers */
+const banUsers = function (req, res) {
+  const path = "/api/banUsers";
+  const url = apiOptions.server + path;
+  const postdata = {
+    email: req.body.email
+  };
+
+  axios
+    .post(url, postdata)
+    .then((response) => {
+      if (response.data) {
+        res.status(200).json(response.data);
+      } else {
+        res
+          .status(404)
+          .send("No se ha podido eliminar/bannear al usuario");
+      }
+    })
+    .catch((error) => {
+      console.error(`Error: ${error.message}`);
+    });
+};
+
+/* unBanUsers */
+const unBanUsers = function (req, res) {
+  const path = "/api/unBanUsers";
+  const url = apiOptions.server + path;
+  const postdata = {
+    email: req.body.email
+  };
+
+  axios
+    .post(url, postdata)
+    .then((response) => {
+      if (response.data) {
+        res.status(200).json(response.data);
+      } else {
+        res
+          .status(404)
+          .send("No se ha podido desbanear al usuario");
+      }
+    })
+    .catch((error) => {
+      console.error(`Error: ${error.message}`);
+    });
+};
+
+/* GET users */
+const getBannedUsers = function (req, res) {
+  const path = "/api/banUsers";
+  const url = apiOptions.server + path;
+
+  axios.get(url, {}).then((response) => {
+    if (response.data) {
+      res.status(200).json(response.data);
+    } else {
+      res.status(404).send("No hemos encontrado ningún usuario baneado...");
+    }
+  });
+};
+
+/* SAVE airports */
 const saveAirports = function (req, res) {
   const path = "/api/saveAirports";
   const url = apiOptions.server + path;
@@ -255,6 +322,9 @@ module.exports = {
   getUsersByEmail,
   resetPasswordByEmail,
   loginUsers,
+  banUsers,
+  unBanUsers,
+  getBannedUsers,
   resetPassword,
   saveAirports,
   createTopics
