@@ -1,15 +1,16 @@
 # Utiliza la imagen base Node.js
-FROM node:latest
+FROM node:16
 
 # Define el directorio de trabajo
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copia los archivos de la aplicación al contenedor
 COPY package*.json ./
-COPY . .
 
 # Instala las dependencias de la aplicación
 RUN npm install
+
+COPY . .
 
 EXPOSE 8000
 
