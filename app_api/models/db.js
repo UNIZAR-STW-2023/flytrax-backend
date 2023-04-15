@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 // const dbURI =
 //   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
-const dbURI =
+let dbURI =
   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
 
