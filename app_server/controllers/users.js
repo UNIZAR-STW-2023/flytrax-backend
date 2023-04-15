@@ -56,9 +56,6 @@ const verifyToken = function (req, res, next) {
   }
 };
 
-
-
-
 /* GET users */
 const getUsers = function (req, res) {
   const path = "/api/users";
