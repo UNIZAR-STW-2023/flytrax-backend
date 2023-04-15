@@ -6,7 +6,7 @@ const ctrlForo = require("../controllers/foro");
 //Users
 router
     .route('/users')
-    .get(ctrlUsers.verifyToken, ctrlUsers.getUsers)
+    .get(ctrlUsers.getUsers)
     .post(ctrlUsers.postUsers);
 
 router
