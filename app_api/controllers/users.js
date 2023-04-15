@@ -115,14 +115,16 @@ const resetPassword = async (req, res) => {
   token = req.body.token;
   password = req.body.password;
 
+
   let passwordResetToken = await Token.findOne({ userId: id });
 
+
   if (!passwordResetToken) {
-    throw new Error("Invalid or expired password reset token");
+    res.status(200).json("No existe token de restauracion de contraseña");
   }
 
   if (token != passwordResetToken.token) {
-    throw new Error("Invalid or expired password reset token");
+    res.status(200).json("No existe token de restauracion de contraseña");
   }
   const hash = await bcrypt.hash(password, Number(bcryptSalt));
   await Users.updateOne(
@@ -142,6 +144,7 @@ const resetPassword = async (req, res) => {
 };
 
 const loginUsers = function (req, res) {
+  console.log("Entra a login users")
   const user = {
     email: req.body.email,
   };
@@ -149,6 +152,7 @@ const loginUsers = function (req, res) {
   //Buscamos si existe el usuario con ese email
   Users.findOne(user).then(function (results) {
     res.status(200).json(results);
+    console.log(results)
   });
 };
 

@@ -6,16 +6,16 @@ const ctrlForo = require("../controllers/foro");
 //Users
 router
     .route('/users')
-    .get(ctrlUsers.getUsers)
+    .get(ctrlUsers.verifyToken, ctrlUsers.getUsers)
     .post(ctrlUsers.postUsers);
 
 router
     .route('/usersByEmail/:email')
-    .get(ctrlUsers.getUsersByEmail);
+    .get(ctrlUsers.verifyToken, ctrlUsers.getUsersByEmail);
 
 router
     .route('/resetPasswordByEmail/:email')
-    .post(ctrlUsers.resetPasswordByEmail);
+    .post(ctrlUsers.verifyToken, ctrlUsers.resetPasswordByEmail);
 
 router
     .route('/loginUsers')
@@ -23,39 +23,39 @@ router
 
 router
     .route('/resetPassword')
-    .post(ctrlUsers.resetPassword);
+    .post(ctrlUsers.verifyToken, ctrlUsers.resetPassword);
 
 router
     .route('/banUsers')
-    .post(ctrlUsers.banUsers)
-    .get(ctrlUsers.getBannedUsers);
+    .post(ctrlUsers.verifyToken, ctrlUsers.banUsers)
+    .get(ctrlUsers.verifyToken, ctrlUsers.getBannedUsers);
 
 router
     .route('/unBanUsers')
-    .post(ctrlUsers.unBanUsers);
+    .post(ctrlUsers.verifyToken, ctrlUsers.unBanUsers);
 
     
 //Foro
 router
   .route('/createTopics')
-  .post(ctrlForo.createTopics);
+  .post(ctrlUsers.verifyToken, ctrlForo.createTopics);
 
 router
   .route('/createAnswers')
-  .post(ctrlForo.createAnswers);
+  .post(ctrlUsers.verifyToken, ctrlForo.createAnswers);
 
 router
   .route('/topics')
-  .get(ctrlForo.getTopics)
+  .get(ctrlUsers.verifyToken, ctrlForo.getTopics)
 
 router
     .route('/getAnswersByTopic/:topicId')
-    .get(ctrlForo.getAnswersByTopic);
+    .get(ctrlUsers.verifyToken, ctrlForo.getAnswersByTopic);
 
 //AirLabs
 router
     .route('/saveAirports')
-    .post(ctrlUsers.saveAirports);
+    .post(ctrlUsers.verifyToken, ctrlUsers.saveAirports);
 
 module.exports = router;
         

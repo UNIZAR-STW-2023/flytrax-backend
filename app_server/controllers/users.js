@@ -1,12 +1,63 @@
 const axios = require("axios");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const TokenAuth = require('../../app_api/models/tokenAuth');
 
 const apiOptions = {
   server: "http://localhost:3000",
   /* server : 'https://flytraxserver-758723.b4a.run' */
 };
 const saltRounds = 10;
+
+function removeBearerPrefix(tokenString) {
+  if (tokenString.startsWith('Bearer ')) {
+    return tokenString.slice(7);
+  } else {
+    return tokenString;
+  }
+}
+
+
+const verifyUserToken = function(email, token, callback) {
+  console.log("Ahora entro a ver si existe un par email:token en la bd", email, token);
+  TokenAuth.findOne({ email: email, tokenAuth: token }, function(err, result) {
+    if (err) {
+      callback(false);
+    } else {
+      callback(true);
+    }
+  });
+};
+
+
+
+
+//Funcion interna para verificar un token
+const verifyToken = function (req, res, next) {
+  const token = req.headers.authorization;
+  console.log("Entro a verificar el token: ", token)
+  if (!token) {
+    return res.status(401).json({"status":"Se requiere token de autorización"});
+  }
+  token_wo_prefix = removeBearerPrefix(token)
+
+  try {
+    const decoded = jwt.verify(token_wo_prefix, "stw_2023!");
+    verifyUserToken(decoded.email, token_wo_prefix, function(result) {
+      if (result){
+        next()
+      }else{
+        return res.status(400).send("No existe un email con ese token");
+      }
+    });
+    
+  } catch (error) {
+    return res.status(400).send("No se permite realizar esa operacion. Permiso denegado");
+  }
+};
+
+
+
 
 /* GET users */
 const getUsers = function (req, res) {
@@ -166,10 +217,17 @@ const loginUsers = function (req, res) {
               {
                 email,
               },
-              "stw2023",
+              "stw_2023!",
               { expiresIn: "48h" }
             );
-
+            //Lo metemos en la BD
+            const posdata_token = {
+              email:email,
+              tokenAuth:token
+            }
+            TokenAuth.create(posdata_token, function () {
+              res.status(200);
+            });
             jsonResponse = {
               status: "Sucessful",
               email: postdata.email,
@@ -327,5 +385,6 @@ module.exports = {
   getBannedUsers,
   resetPassword,
   saveAirports,
-  createTopics
+  createTopics,
+  verifyToken
 };
