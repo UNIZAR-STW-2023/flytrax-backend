@@ -7,8 +7,9 @@ const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
 
 const bcryptSalt = 10;
-const clientURL = "http://localhost:3000";
+//const clientURL = "http://localhost:3000";
 // const clientURL = "https://flytraxserver-758723.b4a.run";
+const clientURL = "https://flytrax-backend.vercel.app"
 
 const _buildUsersList = function (results) {
   let users = [];

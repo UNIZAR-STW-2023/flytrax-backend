@@ -2,10 +2,9 @@ const axios = require("axios");
 
 
 const apiOptions = {
-  server: "http://localhost:3000",
-  /* server : 'https://flytraxserver-758723.b4a.run' */
+  //server: "http://localhost:3000",
+   server : 'https://flytrax-backend.vercel.app' 
 };
-
 /* CREATE TOPICS */
 const createTopics = function (req, res) {
   const path = "/api/createTopics";

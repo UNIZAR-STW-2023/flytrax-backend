@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const TokenAuth = require('../../app_api/models/tokenAuth');
 
 const apiOptions = {
-  server: "http://localhost:3000",
-  /* server : 'https://flytraxserver-758723.b4a.run' */
+  //server: "http://localhost:3000",
+   server : 'https://flytrax-backend.vercel.app' 
 };
 const saltRounds = 10;
 
