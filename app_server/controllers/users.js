@@ -9,6 +9,7 @@ const apiOptions = {
 };
 const saltRounds = 10;
 
+//Quita el Bearer que mete Postman
 function removeBearerPrefix(tokenString) {
   if (tokenString.startsWith('Bearer ')) {
     return tokenString.slice(7);
@@ -17,7 +18,7 @@ function removeBearerPrefix(tokenString) {
   }
 }
 
-
+//Verifica que existe un par email:token, en la tabla de tokens de autorizacion
 const verifyUserToken = function(email, token, callback) {
   console.log("Ahora entro a ver si existe un par email:token en la bd", email, token);
   TokenAuth.findOne({ email: email, tokenAuth: token }, function(err, result) {
@@ -32,7 +33,7 @@ const verifyUserToken = function(email, token, callback) {
 
 
 
-//Funcion interna para verificar un token
+//Funcion interna para verificar si un token es valido o no
 const verifyToken = function (req, res, next) {
   const token = req.headers.authorization;
   console.log("Entro a verificar el token: ", token)
