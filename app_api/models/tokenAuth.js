@@ -9,6 +9,10 @@ const tokenAuthSchema = new mongoose.Schema({
     tokenAuth: {
       type: String,
       required: true,
+    },
+    tokenCreation: {
+      type: Date,
+      default: Date.now,
     }
   });
 
