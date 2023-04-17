@@ -45,6 +45,10 @@ const usersSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
     default: false
+  },
+  registerDate: {
+    type: Date,
+    default: Date.now,
   }
 });
 
