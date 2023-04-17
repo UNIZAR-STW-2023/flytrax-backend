@@ -6,8 +6,8 @@ const answersSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: String,
-    required: true,
+    type: Date,
+    default: Date.now,
   },
   topicId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -23,3 +23,5 @@ const answersSchema = new mongoose.Schema({
 
 
   module.exports = mongoose.model( "Answers" , answersSchema);
+
+  

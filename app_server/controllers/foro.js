@@ -14,7 +14,7 @@ const createTopics = function (req, res) {
     userId: req.body.id,
     title: req.body.title,
     description: req.body.description,
-    date: req.body.date
+    respuestas: req.body.respuestas
   };
   console.log(postdata)
 
@@ -42,13 +42,11 @@ const createAnswers = function (req, res) {
   userId = req.body.userId
   topicId = req.body.topicId
   content = req.body.content
-  date = req.body.date
 
   const postData = {
     userId: userId,
     topicId: topicId,
     content: content,
-    date: date
   }
 
   axios

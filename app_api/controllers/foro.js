@@ -13,18 +13,17 @@ const createTopics = async (req, res) => {
   console.log("Voy a entrar a guardar un tema brother")
   console.log(req.body.title);
   console.log(req.body.description);
-  console.log(req.body.date)
 
   userId = req.body.userId
   title = req.body.title
   description = req.body.description
-  date = req.body.date
+  respuestas = req.body.respuestas
 
   const postData = {
     userId: userId,
     title: title,
     description: description,
-    date: date
+    respuestas: respuestas
   }
   Topics.create(postData, function (results) {
     res.status(200).json({
@@ -32,7 +31,7 @@ const createTopics = async (req, res) => {
       "userId": userId,
       "title": title,
       "description": description,
-      "date": date
+      "respuestas": respuestas
     });
   });
   
@@ -43,33 +42,36 @@ const createAnswers = async (req, res) => {
   console.log(req.body.userId);
   console.log(req.body.topicId);
   console.log(req.body.content)
-  console.log(req.body.date)
 
 
   userId = req.body.userId
   topicId = req.body.topicId
   content = req.body.content
-  date = req.body.date
 
   const postData = {
     userId: userId,
     topicId: topicId,
     content: content,
-    date: date
   }
 
   try {
     // Crear la respuesta
-    await Answers.create(postData);
+    const answer = await Answers.create(postData);
+    
     // Actualizar el tema
-    await Topics.updateOne({_id: ObjectId(topicId)}, {$inc: {"n_answers": 1}});
+    const topic = await Topics.findById(topicId);
+    
+    topic.respuesta.push(answer._id);
+    
+    // Guardar el tema actualizado
+    await topic.save();
+  
     // Responder al cliente
     res.status(200).json({
       "status": "Respondido correctamente",
       "userId": userId,
       "topicId": topicId,
       "content": content,
-      "date": date
     });
   } catch (error) {
     console.error(`Ocurrió un error al guardar la respuesta: ${error}`);
