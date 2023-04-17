@@ -10,6 +10,7 @@ const tokenAuthSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    //Esto se crea solo
     tokenCreation: {
       type: Date,
       default: Date.now,
