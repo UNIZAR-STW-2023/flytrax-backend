@@ -5,11 +5,12 @@ const FavAirports = require('../models/favAirports');
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
+const Admins = require("../models/admins");
 
 const bcryptSalt = 10;
-//const clientURL = "http://localhost:3000";
-// const clientURL = "https://flytraxserver-758723.b4a.run";
-const clientURL = "https://flytrax-backend.vercel.app"
+const clientURL = "http://localhost:3000";
+//const clientURL = "https://flytraxserver-758723.b4a.run";
+//const clientURL = "https://flytrax-backend.vercel.app"
 
 const _buildUsersList = function (results) {
   let users = [];
@@ -50,6 +51,7 @@ const postUsers = function (req, res) {
     password: req.body.password,
     gender: req.body.gender,
   };
+
 
   // Insertamos el usuario en la colección "Users"
   Users.create(user, function (results) {
@@ -144,17 +146,28 @@ const resetPassword = async (req, res) => {
   res.json("Contraseña actualizada correctamente");
 };
 
-const loginUsers = function (req, res) {
+const loginUsers = async function (req, res) {
   console.log("Entra a login users")
   const user = {
     email: req.body.email,
   };
 
-  //Buscamos si existe el usuario con ese email
-  Users.findOne(user).then(function (results) {
-    res.status(200).json(results);
-    console.log(results)
-  });
+  //Tenemos que ver si existe en la tabla de admins
+  const adminEncontrado = await Admins.findOne(user);
+  if (adminEncontrado){
+    res.status(200).json({"esAdmin": "true", adminEncontrado});
+    console.log(adminEncontrado)
+  }else{
+    const userEncontrado = await Users.findOne(user);
+    if (userEncontrado){
+      res.status(200).json({"esAdmin": "false", userEncontrado});
+      console.log(userEncontrado)
+    }else{
+      res.status(200).json({"status": "No se ha encontrado ese usuario en la bd"});
+    }
+  }
+
+
 };
 
 

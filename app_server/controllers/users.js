@@ -2,10 +2,11 @@ const axios = require("axios");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const TokenAuth = require('../../app_api/models/tokenAuth');
+const Admins = require("../../app_api/models/admins");
 
 const apiOptions = {
-  //server: "http://localhost:3000",
-   server : 'https://flytrax-backend.vercel.app' 
+  server: "http://localhost:3000",
+  //server : 'https://flytrax-backend.vercel.app' 
 };
 const saltRounds = 10;
 
@@ -29,6 +30,22 @@ const verifyUserToken = function(email, token, callback) {
     }
   });
 };
+
+const updateAdminToken = async function(email, newToken) {
+  try {
+    const admin = await Admins.findOne({ email }); // Buscar el admin por su email
+    if (admin) { 
+      console.log("Este usuario es administrador, se actualiza su token")
+      admin.tokenAdmin = newToken; // Actualizar su token
+      const updatedAdmin = await admin.save(); // Guardar los cambios en la base de datos
+      console.log(`Se actualizó el token del admin con email ${updatedAdmin.email}`); // Mostrar un mensaje de éxito
+      return updatedAdmin;
+    }
+  } catch (error) {
+    console.error(error); // Mostrar un mensaje de error en caso de que algo falle
+    throw error; // Propagar el error para que pueda ser manejado por el llamador de la función
+  }
+}
 
 
 
@@ -193,7 +210,8 @@ const resetPassword = function (req, res) {
 const loginUsers = function (req, res) {
   const path = "/api/loginUsers";
   const url = apiOptions.server + path;
-
+  tokenAdmin = ""
+  tokenUser = ""
   const postdata = {
     email: req.body.email,
     password: req.body.password,
@@ -205,13 +223,44 @@ const loginUsers = function (req, res) {
     axios
       .post(url, postdata)
       .then((response) => {
+        console.log(response.status)
         if (response.status === 200) {
-          passwordRecovered = response.data.password;
-          banned = response.data.banned
+          email = postdata.email;
+          if (response.data.status == "No se ha encontrado ese usuario en la bd"){
+            res.json({"status" :"No existe ese usuario"})
+          }
+          //Esto es solo en caso de que sea administrador
+          console.log(response.data)
+          if (response.data.esAdmin == "true"){
+            passwordRecovered = response.data.adminEncontrado.password;
+            console.log(passwordRecovered)
+            if (bcrypt.compareSync(postdata.password, passwordRecovered)) {
+              tokenAdmin = jwt.sign(
+                {
+                  email,
+                },
+                "stw_2023!admin_",
+                { expiresIn: "400h" }
+              );
+              updateAdminToken(email,tokenAdmin)
+              jsonResponse = {
+                status: "Sucessful",
+                email: postdata.email,
+                tokenUser: "",
+                tokenAdmin:tokenAdmin
+              };
+              res.status(200).json(jsonResponse);
+              return true;
+            }else{
+              res.status(401).json("Email o contraseña incorrectos...");
+              return false;
+            }
+          }         
+          passwordRecovered = response.data.userEncontrado.password;
+          banned = response.data.userEncontrado.banned
           if (bcrypt.compareSync(postdata.password, passwordRecovered) && !banned) {
             //Creamos el token de JWT
-            email = postdata.email;
-            let token = jwt.sign(
+            let tokenUser = jwt.sign(
               {
                 email,
               },
@@ -221,7 +270,7 @@ const loginUsers = function (req, res) {
             //Lo metemos en la BD
             const posdata_token = {
               email:email,
-              tokenAuth:token
+              tokenAuth:tokenUser
             }
             TokenAuth.create(posdata_token, function () {
               res.status(200);
@@ -229,20 +278,25 @@ const loginUsers = function (req, res) {
             jsonResponse = {
               status: "Sucessful",
               email: postdata.email,
-              token: token,
+              tokenUser: tokenUser,
+              tokenAdmin:""
             };
             res.status(200).json(jsonResponse);
+            return true;
           } else {
               if (banned){
                 res.status(401).json("El usuario no existe o ha eliminado su cuenta");
+                return false;
               }else{
                 res.status(401).json("Email o contraseña incorrectos...");
+                return false;
               }
           }
-        } else if (response.status === 500) {
-          res.status(500).json(response.data);
+        } else if (response.status === 404) {
+          res.status(404).json(response.data);
         } else {
           res.status(400).send("El formato de usuario es incorrecto...");
+          return false;
         }
       })
       .catch((error) => {

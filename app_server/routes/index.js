@@ -2,11 +2,15 @@ var express = require('express');
 var router = express.Router();
 const ctrlUsers = require("../controllers/users");
 const ctrlForo = require("../controllers/foro");
+const ctrlAdmin = require("../controllers/admin");
+
+
+
 
 //Users
 router
     .route('/users')
-    .get(ctrlUsers.getUsers)
+    .get(ctrlAdmin.verifyToken, ctrlUsers.getUsers) //Esta es solo para el admin
     .post(ctrlUsers.postUsers);
 
 router
