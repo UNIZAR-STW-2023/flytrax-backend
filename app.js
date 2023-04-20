@@ -52,7 +52,7 @@ app.use(passport.session());
 
 //Función para el home
 app.get("/", (req, res) => {
-  res.send("Flytrax backend runnnnnning!");
+  res.send("Flytrax backend runnnnnning12345!");
 });
 
 // view engine setup
