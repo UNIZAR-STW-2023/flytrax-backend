@@ -5,8 +5,8 @@ const TokenAuth = require('../../app_api/models/tokenAuth');
 const Admins = require("../../app_api/models/admins");
 
 const apiOptions = {
-  server: "http://localhost:3000",
-  //server : 'https://flytrax-backend.vercel.app' 
+  //server: "http://localhost:3000",
+  server : 'https://flytrax-backend.vercel.app' 
 };
 const saltRounds = 10;
 

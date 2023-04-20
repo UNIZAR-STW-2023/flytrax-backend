@@ -2,8 +2,8 @@ const axios = require("axios");
 
 
 const apiOptions = {
-  server: "http://localhost:3000",
-  //server : 'https://flytrax-backend.vercel.app' 
+  //server: "http://localhost:3000",
+  server : 'https://flytrax-backend.vercel.app' 
 };
 
 /* GET users */
