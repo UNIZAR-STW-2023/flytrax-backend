@@ -1,10 +1,10 @@
 var createError = require("http-errors");
 var express = require("express");
 
-const passport = require('passport');
+/*const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config();*/
 
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -23,7 +23,7 @@ const apiRoutes = require("./app_api/routes/index");
 
 var app = express();
 
-passport.use(new GoogleStrategy({
+/*passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: process.env.GOOGLE_CALLBACK_URL
@@ -48,7 +48,7 @@ cb(null, { id });
 
 // Initialize Passport and use it in your app
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session());*/
 
 //Función para el home
 app.get("/", (req, res) => {
