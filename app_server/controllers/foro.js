@@ -1,5 +1,8 @@
 const axios = require("axios");
 
+const logger = require('../utils/logger');
+
+
 
 const apiOptions = {
   //server: "http://localhost:3000",
@@ -16,21 +19,22 @@ const createTopics = function (req, res) {
     description: req.body.description,
     respuestas: req.body.respuestas
   };
-  console.log(postdata)
 
   axios
     .post(url, postdata)
     .then((response) => {
       if (response.data) {
+        logger.info(`Se ha creado el tema correctamente en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
+        logger.warn(`No se ha podido crear el tema en la llamada a ${path}`);
         res
           .status(404)
           .send("No se ha podido crear el tema");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Error al crear el tema en la llamada a ${path}: ${error}`);
     });
 };
 
@@ -53,15 +57,18 @@ const createAnswers = function (req, res) {
     .post(url, postData)
     .then((response) => {
       if (response.data) {
+        logger.info(`Se ha creado la respuesta correctamente en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
+        logger.warn(`No se ha podido crear la respuesta en la llamada a ${path}`);
         res
           .status(404)
           .send("No se ha podido crear la respuesta");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Error al crear la respuesta en la llamada a ${path}: ${error}`);
+
     });
 };
 
@@ -72,8 +79,10 @@ const getTopics = function (req, res) {
 
   axios.get(url, {}).then((response) => {
     if (response.data) {
+      logger.info(`Se ha recuperado la lista de temas correctamente en la llamada a ${path}`);
       res.status(200).json(response.data);
     } else {
+      logger.warn(`No se ha podido recuperar la lista de temas correctamente en la llamada a ${path}`);
       res.status(404).send("No hemos encontrado ningún tema...");
     }
   });
@@ -88,15 +97,17 @@ const getAnswersByTopic = function (req, res) {
     .get(url, {})
     .then((response) => {
       if (response.data) {
+        logger.info(`Se ha recuperado la lista de respuestas correctamente en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
+        logger.warn(`No se ha podido recuperar la lista de respuestas correctamente en la llamada a ${path}`);
         res
           .status(404)
           .send("No hemos encontrado ningún tema con ese id...");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Error al recuperar las respuestas en la llamada a ${path}: ${error}`);
     });
 };
 

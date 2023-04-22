@@ -14,7 +14,7 @@ const clientURL = "http://localhost:3000";
 //const clientURL = "https://flytrax-backend.vercel.app"
 
 const getUsersByGenre = async (req, res) => {
-  console.log("Ojo que entreo aqui")
+
   try {
     // Obtén todos los usuarios de la base de datos
     const users = await Users.find();
@@ -55,7 +55,7 @@ const getUsersByGenre = async (req, res) => {
       "nonespecificado" : nonespecificadoPercentage
     });
   } catch (err) {
-    console.error(err.message);
+
     res.status(500).send('Server Error');
   }
 };
@@ -81,7 +81,6 @@ const getBannedUsers = async (req, res) => {
 const getBannedUsersByGenre = async (req, res) => {
     // Obtén todos los usuarios baneados de la base de datos
     const bannedUsers = await Users.find({ banned: true });
-    console.log(bannedUsers)
     
     // Calcula el total de usuarios y el número de usuarios por género
     let totalUsers = 0;
@@ -148,7 +147,6 @@ const getUsersByAgeRange = async (req, res) => {
       const userDateOfBirth = user.dateOfBirth;
       const age = moment().diff(moment(userDateOfBirth, 'DD/MM/YYYY'), 'years');
 
-      console.log(`La edad del usuario es ${age} años`);
 
       
 
@@ -167,7 +165,6 @@ const getUsersByAgeRange = async (req, res) => {
       ageData,
     });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Server Error');
   }
 };
@@ -229,7 +226,6 @@ const getUsersRegisteredByPeriod = async (req, res) => {
     // Enviar el objeto JSON con los resultados
     res.json(usersByWeek);
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Server Error');
   }
 };

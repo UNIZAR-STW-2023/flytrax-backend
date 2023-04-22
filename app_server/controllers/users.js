@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const TokenAuth = require('../../app_api/models/tokenAuth');
 const Admins = require("../../app_api/models/admins");
 
+const logger = require('../utils/logger');
+
+
 const apiOptions = {
   //server: "http://localhost:3000",
   server : 'https://flytrax-backend.vercel.app' 
@@ -21,7 +24,6 @@ function removeBearerPrefix(tokenString) {
 
 //Verifica que existe un par email:token, en la tabla de tokens de autorizacion
 const verifyUserToken = function(email, token, callback) {
-  console.log("Ahora entro a ver si existe un par email:token en la bd", email, token);
   TokenAuth.findOne({ email: email, tokenAuth: token }, function(err, result) {
     if (err) {
       callback(false);
@@ -35,14 +37,11 @@ const updateAdminToken = async function(email, newToken) {
   try {
     const admin = await Admins.findOne({ email }); // Buscar el admin por su email
     if (admin) { 
-      console.log("Este usuario es administrador, se actualiza su token")
       admin.tokenAdmin = newToken; // Actualizar su token
       const updatedAdmin = await admin.save(); // Guardar los cambios en la base de datos
-      console.log(`Se actualizó el token del admin con email ${updatedAdmin.email}`); // Mostrar un mensaje de éxito
       return updatedAdmin;
     }
   } catch (error) {
-    console.error(error); // Mostrar un mensaje de error en caso de que algo falle
     throw error; // Propagar el error para que pueda ser manejado por el llamador de la función
   }
 }
@@ -53,7 +52,6 @@ const updateAdminToken = async function(email, newToken) {
 //Funcion interna para verificar si un token es valido o no
 const verifyToken = function (req, res, next) {
   const token = req.headers.authorization;
-  console.log("Entro a verificar el token: ", token)
   if (!token) {
     return res.status(401).json({"status":"Se requiere token de autorización"});
   }
@@ -82,9 +80,15 @@ const getUsers = function (req, res) {
   axios.get(url, {}).then((response) => {
     if (response.data.length > 0) {
       res.status(200).json(response.data);
+      logger.info(`Se han obtenido ${response.data.length} usuarios en la llamada a ${path}`);
+
     } else {
       res.status(404).send("No hemos encontrado ningún usuario...");
+      logger.warn(`No se han encontrado usuarios en la llamada a ${path}`);
     }
+  }).catch((error) => {
+    logger.error(`Error al obtener los usuarios: ${error} en la llamada a ${path}`);
+    res.status(500).send('Ha ocurrido un error al obtener los usuarios.');
   });
 };
 
@@ -124,15 +128,18 @@ const postUsers = function (req, res) {
       .post(url, postdata)
       .then((response) => {
         if (response.status === 200) {
+          logger.info(`Se ha introducido correctamente el usuario en la llamada a ${path}`);
           res.status(200).json(response.data);
         } else if (response.status === 500) {
+          logger.warn(`No se ha podido introducir el usuario en la llamada a ${path}`);
           res.status(500).json(response.data);
         } else {
+          logger.warn(`EL formato de usuario es incorrecto ${path}`);
           res.status(400).send("El formato de usuario es incorrecto...");
         }
       })
       .catch((error) => {
-        console.error(`Error: ${error.message}`);
+        logger.error(`Error al introducir al usuario los usuarios en la llamada a ${path}: ${error}`);
       });
   }
 };
@@ -147,14 +154,16 @@ const getUsersByEmail = function (req, res) {
     .then((response) => {
       if (response.data.length > 0) {
         res.status(200).json(response.data);
+        logger.info(`Se ha obtenido el usuario correctamente en la llamada a ${path}`);
       } else {
+        logger.warn(`No se ha encontrado ningun usuario con el email: ${req.params.email} en la llamada a ${path}`);
         res
           .status(404)
           .send("No hemos encontrado ningún usuario con ese email...");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Error al recuperar el usuario en la llamada a ${path}: ${error}`);
     });
 };
 
@@ -163,21 +172,22 @@ const resetPasswordByEmail = async function (req, res) {
   const path = `/api/resetPasswordByEmail/${req.params.email}`;
   const url = apiOptions.server + path;
 
-  await axios
-    .post(url, {})
-    .then((response) => {
-      console.log("Lo que me devuelve es: ", response.data);
-      if (response.data) {
-        res.status(200).json(response.data);
-      } else {
-        res
-          .status(404)
-          .send("No hemos encontrado ningún usuario con ese email...");
-      }
-    })
-    .catch((error) => {
-      console.error(`Error: ${error.message}`);
-    });
+  try {
+    const response = await axios.post(url, {});
+
+    if (response.data) {
+      res.status(200).json(response.data);
+      logger.info(`Se ha restablecido correctamente la contraseña del usuario con correo electrónico: ${req.params.email} en la llamada a ${path}`);
+    } else {
+      res
+        .status(404)
+        .send("No hemos encontrado ningún usuario con ese email...");
+      logger.warn(`No se ha encontrado ningún usuario con el correo electrónico: ${req.params.email} en la llamada a ${path}`);
+    }
+  } catch (error) {
+    logger.error(`Se produjo un error al restablecer la contraseña del usuario con correo electrónico: ${req.params.email} en la llamada a ${path}: ${error}`);
+    res.status(500).send("Ocurrió un error al intentar restablecer la contraseña del usuario. Por favor, inténtelo de nuevo más tarde.");
+  }
 };
 
 const resetPassword = function (req, res) {
@@ -195,16 +205,20 @@ const resetPassword = function (req, res) {
     .then((response) => {
       if (response.data.length > 0) {
         res.status(200).json(response.data);
+        logger.info(`Se ha restablecido correctamente la contraseña del usuario con ID ${req.body.id} en la llamada a ${path}`);
       } else {
         res
           .status(404)
           .send("No hemos encontrado ningún usuario con ese email...");
+        logger.warn(`No se ha encontrado ningún usuario con el ID: ${req.body.id} en la llamada a ${path}`);
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Se produjo un error al restablecer la contraseña del usuario con ID ${req.body.id} en la llamada a ${path}: ${error}`);
+      res.status(500).send("Ocurrió un error al intentar restablecer la contraseña del usuario. Por favor, inténtelo de nuevo más tarde.");
     });
 };
+
 
 /* LOGIN users */
 const loginUsers = function (req, res) {
@@ -218,22 +232,24 @@ const loginUsers = function (req, res) {
   };
 
   if (!postdata.email) {
+    logger.warn(`El email ${postdata.email} no existe en la base de datos en la llamada a ${path}`);
     res.status(404).send("El email es incorrecto...");
   } else {
     axios
       .post(url, postdata)
       .then((response) => {
-        console.log(response.status)
+
         if (response.status === 200) {
           email = postdata.email;
           if (response.data.status == "No se ha encontrado ese usuario en la bd"){
             res.json({"status" :"No existe ese usuario"})
+            logger.warn(`El email ${postdata.email} no existe en la base de datos en la llamada a ${path}`);
           }
           //Esto es solo en caso de que sea administrador
-          console.log(response.data)
+
           if (response.data.esAdmin == "true"){
             passwordRecovered = response.data.adminEncontrado.password;
-            console.log(passwordRecovered)
+
             if (bcrypt.compareSync(postdata.password, passwordRecovered)) {
               tokenAdmin = jwt.sign(
                 {
@@ -250,9 +266,11 @@ const loginUsers = function (req, res) {
                 tokenAdmin:tokenAdmin
               };
               res.status(200).json(jsonResponse);
+              logger.info(`Se ha iniciado sesión correctamente para el admin con email ${postdata.email} en la llamada a ${path}`);
               return true;
             }else{
               res.status(401).json("Email o contraseña incorrectos...");
+              logger.warn(`Email o contraseña incorrectos para el admin en la llamada a ${path}`);
               return false;
             }
           }         
@@ -282,13 +300,17 @@ const loginUsers = function (req, res) {
               tokenAdmin:""
             };
             res.status(200).json(jsonResponse);
+            logger.info(`Se ha iniciado sesión correctamente para el usuario con email ${postdata.email} en la llamada a ${path}`);
             return true;
           } else {
               if (banned){
                 res.status(401).json("El usuario no existe o ha eliminado su cuenta");
+                logger.warn(`El email ${postdata.email} no existe en la base de datos o esta baneado en la llamada a ${path}`);
+
                 return false;
               }else{
                 res.status(401).json("Email o contraseña incorrectos...");
+                logger.warn(`El email ${postdata.email} no existe en la base de datos en la llamada a ${path}`);
                 return false;
               }
           }
@@ -296,11 +318,12 @@ const loginUsers = function (req, res) {
           res.status(404).json(response.data);
         } else {
           res.status(400).send("El formato de usuario es incorrecto...");
+          logger.warn(`El email ${postdata.email} no es valido en la llamada a ${path}`);
           return false;
         }
       })
       .catch((error) => {
-        console.error(`Error: ${error.message}`);
+        logger.error(`Ha ocurrido un error y no se pudo iniciar sesión para el email ${postdata.email}: ${error}`);
       });
   }
 };
@@ -317,15 +340,18 @@ const banUsers = function (req, res) {
     .post(url, postdata)
     .then((response) => {
       if (response.data) {
+        logger.info(`Se ha baneado correctamente al usuario con email ${email} en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
+        logger.warn(`No se ha podido banear al usuario con email ${email} en la llamada a ${path}`);
         res
           .status(404)
           .send("No se ha podido eliminar/bannear al usuario");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Ha ocurrido un error mientras se baneaba al usuario ${email}: ${error} en la llamada a ${path}`);
+
     });
 };
 
@@ -341,15 +367,18 @@ const unBanUsers = function (req, res) {
     .post(url, postdata)
     .then((response) => {
       if (response.data) {
+        logger.info(`Se ha desbaneado correctamente al usuario con email ${email} en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
+        logger.warn(`No se ha podido desbanear al usuario con email ${email} en la llamada a ${path}`);
         res
           .status(404)
           .send("No se ha podido desbanear al usuario");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Ha ocurrido un error mientras se desbaneaba al usuario ${email}: ${error} en la llamada a ${path}`);
+
     });
 };
 
@@ -360,8 +389,10 @@ const getBannedUsers = function (req, res) {
 
   axios.get(url, {}).then((response) => {
     if (response.data) {
+      logger.info(`Se ha recuperado la lista de usuarios baneados correctamente en la llamada a ${path}`);
       res.status(200).json(response.data);
     } else {
+      logger.warn(`No se ha podido recuperar la lista de usuarios baneados correctamente en la llamada a ${path}`);
       res.status(404).send("No hemos encontrado ningún usuario baneado...");
     }
   });
@@ -378,6 +409,8 @@ const saveAirports = function (req, res) {
   };
 
   if (!postdata.email || !postdata.iata) {
+    logger.warn(`No se ha especificado el email o el IATA en la llamada a ${path}. Imposible introducir en BD`);
+
     res.status(404).send("Faltan campos. Imposible guardar");
   } else {
     axios
@@ -385,14 +418,16 @@ const saveAirports = function (req, res) {
     .then((response) => {
       if (response.data) {
         res.status(200).json(response.data);
+        logger.info(`Se ha introducido correctamente el aeropuerto ${postdata.iata} como favorito del usuario ${postdata.email} en la llamada a ${path}`);
       } else {
+        logger.warn(`No hemos encontrado ningun usuario con el email ${postdata.email} en la llamada a ${path}`);
         res
           .status(404)
           .send("No hemos encontrado ningún usuario con ese email...");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+       logger.warn(`Se ha producido un error en la llamada a ${path}`);
     });
   }
 }
@@ -414,14 +449,18 @@ const createTopics = function (req, res) {
     .then((response) => {
       if (response.data.length > 0) {
         res.status(200).json(response.data);
+        logger.info(`Se ha creado el topico correctamente en la llamada a ${path}`);
       } else {
+        logger.warn(`No se ha podido crear el topico correctamente en la llamada a ${path}`);
+
         res
           .status(404)
           .send("No se ha podido crear el tema");
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
+      logger.error(`Se ha producido un error en la llamada a ${path}`);
+
     });
 };
 

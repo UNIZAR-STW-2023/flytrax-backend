@@ -80,7 +80,6 @@ const resetPasswordByEmail = async function (req, res) {
     id = results[0]._id.toString(); // obtener el campo "id" del primer resultado
     // hacer algo más con el valor de "id" aquí dentro de la función
   } catch (error) {
-    console.log("Error:", error);
   }
   if (!id) {
     throw new Error("No existe el usuario...");
@@ -111,9 +110,6 @@ const resetPasswordByEmail = async function (req, res) {
 };
 
 const resetPassword = async (req, res) => {
-  console.log(req.body.id);
-  console.log(req.body.token);
-  console.log(req.body.password);
   id = req.body.id;
   token = req.body.token;
   password = req.body.password;
@@ -147,7 +143,6 @@ const resetPassword = async (req, res) => {
 };
 
 const loginUsers = async function (req, res) {
-  console.log("Entra a login users")
   const user = {
     email: req.body.email,
   };
@@ -156,12 +151,10 @@ const loginUsers = async function (req, res) {
   const adminEncontrado = await Admins.findOne(user);
   if (adminEncontrado){
     res.status(200).json({"esAdmin": "true", adminEncontrado});
-    console.log(adminEncontrado)
   }else{
     const userEncontrado = await Users.findOne(user);
     if (userEncontrado){
       res.status(200).json({"esAdmin": "false", userEncontrado});
-      console.log(userEncontrado)
     }else{
       res.status(200).json({"status": "No se ha encontrado ese usuario en la bd"});
     }
@@ -173,7 +166,6 @@ const loginUsers = async function (req, res) {
 
 const banUsers = function (req, res) {
   const email = req.body.email;
-  console.log(email) 
 
   Users.findOneAndUpdate(
     { email: email }, // busca el usuario con el correo electrónico especificado
@@ -182,7 +174,6 @@ const banUsers = function (req, res) {
     function (err, user) {
       if (err) {
         // maneja el error si lo hay
-        console.error(err);
         return res.status(500).json({ message: 'Error interno del servidor' });
       }
       if (!user) {
@@ -205,7 +196,6 @@ const unBanUsers = function (req, res) {
     function (err, user) {
       if (err) {
         // maneja el error si lo hay
-        console.error(err);
         return res.status(500).json({ message: 'Error interno del servidor' });
       }
       if (!user) {
@@ -226,9 +216,7 @@ const getBannedUsers = function (req, res) {
 
 
 const saveAirports = async (req, res) => {
-  console.log("Voy a entrar a guardar un aeropuerto brother")
-  console.log(req.body.email);
-  console.log(req.body.iata);
+
   email = req.body.email;
   iata = req.body.iata
   const postData = {

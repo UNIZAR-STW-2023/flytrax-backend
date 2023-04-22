@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Admins = require('../../app_api/models/admins');
 
+const logger = require('../utils/logger');
+
+
 const apiOptions = {
   //server: "http://localhost:3000",
   server : 'https://flytrax-backend.vercel.app' 
@@ -20,7 +23,6 @@ function removeBearerPrefix(tokenString) {
 
 //Verifica que existe un par email:token, en la tabla de tokens de autorizacion
 const verifyAdminToken = function(email, token, callback) {
-  console.log("Ahora entro a ver si existe un par email:token en la bd de administrador", email, token);
   Admins.findOne({ email: email, tokenAdmin: token }, function(err, result) {
     if (err) {
       callback(false);
@@ -36,7 +38,6 @@ const verifyAdminToken = function(email, token, callback) {
 //Funcion interna para verificar si un token es valido o no
 const verifyToken = function (req, res, next) {
   const token = req.headers.authorization;
-  console.log("Entro a verificar el token: ", token)
   if (!token) {
     return res.status(401).json({"status":"Se requiere token de autorización de administrador"});
   }
@@ -91,7 +92,6 @@ const banUsers = function (req, res) {
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
     });
 };
 
@@ -115,7 +115,6 @@ const unBanUsers = function (req, res) {
       }
     })
     .catch((error) => {
-      console.error(`Error: ${error.message}`);
     });
 };
 
@@ -135,9 +134,5 @@ const getBannedUsers = function (req, res) {
 
 
 module.exports = {
-  getUsers,
-  banUsers,
-  unBanUsers,
-  getBannedUsers,
   verifyToken
 };

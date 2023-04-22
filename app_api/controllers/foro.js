@@ -9,9 +9,7 @@ const clientURL = "https://flytrax-backend.vercel.app"
 /* CREATE TOPICS */
 
 const createTopics = async (req, res) => {
-  console.log("Voy a entrar a guardar un tema brother")
-  console.log(req.body.title);
-  console.log(req.body.description);
+
 
   userId = req.body.userId
   title = req.body.title
@@ -37,10 +35,7 @@ const createTopics = async (req, res) => {
 };
 
 const createAnswers = async (req, res) => {
-  console.log("Voy a entrar a guardar una respuesta brother")
-  console.log(req.body.userId);
-  console.log(req.body.topicId);
-  console.log(req.body.content)
+
 
 
   userId = req.body.userId
@@ -73,7 +68,6 @@ const createAnswers = async (req, res) => {
       "content": content,
     });
   } catch (error) {
-    console.error(`Ocurrió un error al guardar la respuesta: ${error}`);
     res.status(500).json({
       "status": "Error al guardar la respuesta"
     });
@@ -87,7 +81,6 @@ const getTopics = function (req, res) {
 };
 
 const getAnswersByTopic = function (req, res) {
-  console.log("Me meto a buscar las respuestas")
   const Topic = {
     topicId: req.params.topicId,
   };
