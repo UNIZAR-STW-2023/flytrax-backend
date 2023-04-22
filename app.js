@@ -1,11 +1,6 @@
 var createError = require("http-errors");
 var express = require("express");
 
-/*const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const dotenv = require('dotenv');
-dotenv.config();*/
-
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var lessMiddleware = require("less-middleware");
@@ -22,33 +17,6 @@ const index = require("./app_server/routes/index");
 const apiRoutes = require("./app_api/routes/index");
 
 var app = express();
-
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: process.env.GOOGLE_CALLBACK_URL
-},
-function(accessToken, refreshToken, profile, cb) {
-  // This function will be called after the user is authenticated
-  // You can use the profile information to create or update a user
-  // and call the callback with the user object
-  return cb(null, profile);
-}
-));
-
-passport.serializeUser(function(user, cb) {
-// Store the user ID in the session
-cb(null, user.id);
-});
-
-passport.deserializeUser(function(id, cb) {
-// Retrieve the user from the database using the ID stored in the session
-cb(null, { id });
-});
-
-// Initialize Passport and use it in your app
-app.use(passport.initialize());
-app.use(passport.session());
 
 //Función para el home
 app.get("/", (req, res) => {

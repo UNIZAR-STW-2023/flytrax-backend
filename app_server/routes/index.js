@@ -3,7 +3,6 @@ var router = express.Router();
 const ctrlUsers = require("../controllers/users");
 const ctrlForo = require("../controllers/foro");
 const ctrlAdmin = require("../controllers/admin");
-const ctrlGoogle = require("../controllers/google");
 
 
 //Users
@@ -59,14 +58,6 @@ router
 router
     .route('/saveAirports')
     .post(ctrlUsers.verifyToken, ctrlUsers.saveAirports);
-
-//Google authentication
-router
-    .route('/auth/google')
-    .get(ctrlGoogle.googleAuth);
-router
-    .route('/auth/google/callback')
-    .get(ctrlGoogle.googleAuthCallback);
 
 module.exports = router;
         
