@@ -18,6 +18,10 @@ const topicsSchema = new mongoose.Schema({
     required: true,
     ref: 'Users',
   },
+  iata: {
+    type: String,
+    required: true,
+  },
   respuesta: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Answers'

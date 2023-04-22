@@ -8,8 +8,8 @@ const logger = require('../utils/logger');
 
 
 const apiOptions = {
-  //server: "http://localhost:3000",
-  server : 'https://flytrax-backend.vercel.app' 
+  server: "http://localhost:3000",
+  //server : 'https://flytrax-backend.vercel.app' 
 };
 const saltRounds = 10;
 
@@ -427,7 +427,7 @@ const saveAirports = function (req, res) {
       }
     })
     .catch((error) => {
-       logger.warn(`Se ha producido un error en la llamada a ${path}`);
+       logger.warn(`Se ha producido un error en la llamada a ${path}: ${error}`);
     });
   }
 }

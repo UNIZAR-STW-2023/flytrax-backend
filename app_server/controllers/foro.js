@@ -5,8 +5,8 @@ const logger = require('../utils/logger');
 
 
 const apiOptions = {
-  //server: "http://localhost:3000",
-  server : 'https://flytrax-backend.vercel.app' 
+  server: "http://localhost:3000",
+  //server : 'https://flytrax-backend.vercel.app' 
 };
 /* CREATE TOPICS */
 const createTopics = function (req, res) {
@@ -17,8 +17,10 @@ const createTopics = function (req, res) {
     userId: req.body.id,
     title: req.body.title,
     description: req.body.description,
+    iata: req.body.iata,
     respuestas: req.body.respuestas
   };
+  console.log(postdata)
 
   axios
     .post(url, postdata)

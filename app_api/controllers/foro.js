@@ -2,32 +2,37 @@ const Answers = require('../models/answers');
 const Topics = require('../models/topics');
 const { ObjectId } = require('mongodb');
 
-//const clientURL = "http://localhost:3000";
+const clientURL = "http://localhost:3000";
 //const clientURL = "https://flytraxserver-758723.b4a.run";
-const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "https://flytrax-backend.vercel.app"
 
 /* CREATE TOPICS */
 
 const createTopics = async (req, res) => {
 
-
+console.log("Entro a crear el topico craack")
   userId = req.body.userId
   title = req.body.title
   description = req.body.description
   respuestas = req.body.respuestas
+  iata = req.body.iata
 
   const postData = {
     userId: userId,
     title: title,
     description: description,
+    iata: iata,
     respuestas: respuestas
   }
+  console.log(postData)
   Topics.create(postData, function (results) {
+
     res.status(200).json({
       "status": "Creado correctamente",
       "userId": userId,
       "title": title,
       "description": description,
+      "iata": iata,
       "respuestas": respuestas
     });
   });
