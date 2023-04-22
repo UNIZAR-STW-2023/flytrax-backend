@@ -18,9 +18,11 @@ const apiRoutes = require("./app_api/routes/index");
 
 var app = express();
 
+
+
 //Función para el home
 app.get("/", (req, res) => {
-  res.send("Flytrax backend runnnnnning12345!");
+  res.send("Flytrax backend runnnnnning!");
 });
 
 // view engine setup
