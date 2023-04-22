@@ -6,6 +6,7 @@ const ctrlAdmin = require("../controllers/admin");
 const ctrlUserMetrics = require("../controllers/usersMetrics");
 
 
+const ctrlGoogle = require("../controllers/google");
 
 
 //Users
@@ -88,6 +89,13 @@ router
   .get(ctrlAdmin.verifyToken, ctrlUserMetrics.getUsersRegisteredByPeriod)
 
   
+//Google authentication
+router
+    .route('/auth/google')
+    .get(ctrlGoogle.googleAuth);
+router
+    .route('/auth/google/callback')
+    .get(ctrlGoogle.googleAuthCallback);
 
 module.exports = router;
         
