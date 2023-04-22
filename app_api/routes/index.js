@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const ctrlUsers = require('../controllers/users');
 const ctrlForo = require('../controllers/foro');
+const ctrlUserMetrics = require('../controllers/usersMetrics');
+
 
 
 //Users
@@ -59,6 +61,35 @@ router
 router
   .route('/saveAirports')
   .post(ctrlUsers.saveAirports);
+
+
+//User Metrics
+router
+  .route('/getUsersByGenre')
+  .get(ctrlUserMetrics.getUsersByGenre)
+
+router
+  .route('/getBannedUsers')
+  .get(ctrlUserMetrics.getBannedUsers)
+
+router
+  .route('/getUsersBannedByGenre')
+  .get(ctrlUserMetrics.getBannedUsersByGenre)
+
+router
+  .route('/getUsersByAgeRange')
+  .get(ctrlUserMetrics.getUsersByAgeRange)
+
+router
+  .route('/getUsersByCountry')
+  .get(ctrlUserMetrics.getUsersByCountry)
+
+router
+  .route('/getUsersRegisteredByPeriod')
+  .get(ctrlUserMetrics.getUsersRegisteredByPeriod)
+
+
+  
 
 
 module.exports = router;

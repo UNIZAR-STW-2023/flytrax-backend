@@ -3,6 +3,7 @@ var router = express.Router();
 const ctrlUsers = require("../controllers/users");
 const ctrlForo = require("../controllers/foro");
 const ctrlAdmin = require("../controllers/admin");
+const ctrlUserMetrics = require("../controllers/usersMetrics");
 
 
 
@@ -60,6 +61,33 @@ router
 router
     .route('/saveAirports')
     .post(ctrlUsers.verifyToken, ctrlUsers.saveAirports);
+
+//User Metrics
+router
+  .route('/getUsersByGenre')
+  .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByGenre)
+
+router
+  .route('/getUsersBanned')
+  .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getBannedUsers)
+
+router
+  .route('/getUsersBannedByGenre')
+  .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getBannedUsersByGenre)
+
+router
+  .route('/getUsersByAgeRange')
+  .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByAgeRange)
+
+router
+  .route('/getUsersByCountry')
+  .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByCountry)
+
+router
+  .route('/getUsersRegisteredByPeriod')
+  .get(ctrlAdmin.verifyToken, ctrlUserMetrics.getUsersRegisteredByPeriod)
+
+  
 
 module.exports = router;
         
