@@ -10,49 +10,41 @@ const getConcurrencyByAirport = async (req, res) => {
   const iata = req.params.iata;
   console.log(iata);
 
-  const url = `https://airlabs.co/api/v9/schedules?api_key=2709a68a-9e16-4c2b-9cd1-fc909726bc3d&arr_iata=${iata}`;
-  const airportConcurrence = {};
+  const flightsByHour = {}; // objeto para almacenar los vuelos por hora
+  const now = new Date(); // hora actual
 
-  try {
-    const response = await axios.get(url);
-    const data = response.data;
-    //Procedemos a calcular la concurrencia por horas en 7 días atras...
+  // Obtener la hora actual formateada en formato hh
+  const formatted_hour = now.getHours().toString().padStart(2, '0');
+  const hoy = now.toISOString().slice(0, 10);
 
+  // Hacer la solicitud a la API
+  axios.get('https://airlabs.co/api/v9/schedules?arr_iata=PMI&api_key=2709a68a-9e16-4c2b-9cd1-fc909726bc3d')
+    .then(response => {
+      const flights = response.data.response;
 
-// Obtener fecha de ayer
-// Obtener la fecha actual
-const today = new Date();
+      // Iterar sobre todas las horas desde la hora actual hasta las próximas 24 horas
+      for (let i = 0; i < 24; i++) {
+        const hour = (now.getHours() + i) % 24; // calcula la hora del vuelo actual
+        const hourString = hour.toString().padStart(2, '0'); // formatea la hora en formato hh
 
-for (const flight of data.response) {
-  const arrDate = new Date(flight.arr_time_utc);
+        // Filtrar los vuelos que salen en la hora actual
+        const flightsForHour = flights.filter(flight => {
+          const departureTime = new Date(flight.arr_time);
+          const departureHour = departureTime.getHours().toString().padStart(2, '0');
+          const departureDate = departureTime.toISOString().slice(0, 10);
+          return departureHour === hourString && departureDate === hoy;
+        });
 
-  // Verificar si el vuelo es de hoy
-  const isTodayFlight = arrDate.getDate() === today.getDate();
+        // Almacenar el número de vuelos para la hora actual
+        flightsByHour[hourString] = flightsForHour.length;
+      }
 
-  if (isTodayFlight) {
-    const arrHour = arrDate.getUTCHours();
-
-
-
-    if (airportConcurrence[arrHour]) {
-      airportConcurrence[arrHour].arrivals += 1;
-    } else {
-      airportConcurrence[arrHour] = {
-        arrivals: 1,
-      };
-    }
-  }
+      console.log(flightsByHour);
+    })
+    .catch(error => {
+      console.error('There was an error with the API request:', error);
+    });
 }
-
-res.status(200).json(airportConcurrence)
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Ha ocurrido un error al obtener los datos');
-  }
-};
-
-
 
 module.exports = {
   getConcurrencyByAirport
