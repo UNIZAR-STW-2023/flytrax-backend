@@ -3,7 +3,7 @@ const router = express.Router();
 const ctrlUsers = require('../controllers/users');
 const ctrlForo = require('../controllers/foro');
 const ctrlUserMetrics = require('../controllers/usersMetrics');
-
+const ctrlAirportsMetrics = require('../controllers/airportsMetrics');
 
 
 //Users
@@ -61,6 +61,11 @@ router
 router
   .route('/saveAirports')
   .post(ctrlUsers.saveAirports);
+
+//Airports Metrics
+router
+    .route('/getConcurrencyByAirport/:iata')
+    .get(ctrlAirportsMetrics.getConcurrencyByAirport);
 
 
 //User Metrics

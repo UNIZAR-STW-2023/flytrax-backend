@@ -4,6 +4,8 @@ const ctrlUsers = require("../controllers/users");
 const ctrlForo = require("../controllers/foro");
 const ctrlAdmin = require("../controllers/admin");
 const ctrlUserMetrics = require("../controllers/usersMetrics");
+const ctrlAirportsMetrics = require("../controllers/airportsMetrics");
+
 
 
 //Users
@@ -36,6 +38,12 @@ router
 router
     .route('/unBanUsers')
     .post(ctrlUsers.verifyToken, ctrlUsers.unBanUsers);
+
+//Airports Metrics
+
+router
+    .route('/getConcurrencyByAirport/:iata')
+    .get(ctrlAirportsMetrics.getConcurrencyByAirport);
 
     
 //Foro
