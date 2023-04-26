@@ -113,9 +113,33 @@ const getAnswersByTopic = function (req, res) {
     });
 };
 
+/* GET topics BY iata*/
+const getTopicsByIata = function (req, res) {
+  const path = `/api/getTopicsByIata/${req.params.iata}`;
+  const url = apiOptions.server + path;
+
+  axios
+    .get(url, {})
+    .then((response) => {
+      if (response.data) {
+        logger.info(`Se ha recuperado la lista de respuestas correctamente en la llamada a ${path}`);
+        res.status(200).json(response.data);
+      } else {
+        logger.warn(`No se ha podido recuperar la lista de respuestas correctamente en la llamada a ${path}`);
+        res
+          .status(404)
+          .send("No hemos encontrado ningún tema con ese id...");
+      }
+    })
+    .catch((error) => {
+      logger.error(`Error al recuperar las respuestas en la llamada a ${path}: ${error}`);
+    });
+};
+
 module.exports = {
   createTopics,
   createAnswers,
   getTopics,
-  getAnswersByTopic
+  getAnswersByTopic,
+  getTopicsByIata
 };

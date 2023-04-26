@@ -94,10 +94,20 @@ const getAnswersByTopic = function (req, res) {
   });
 };
 
+const getTopicsByIata = function (req, res) {
+  const Iata = {
+    iata: req.params.iata,
+  };
+  Answers.find(Iata).then(function (results) {
+    res.status(200).json(results);
+  });
+};
+
 
 module.exports = {
   createTopics,
   createAnswers,
   getTopics,
-  getAnswersByTopic
+  getAnswersByTopic,
+  getTopicsByIata
 };

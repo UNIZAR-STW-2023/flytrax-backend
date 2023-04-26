@@ -52,9 +52,13 @@ router
   .route('/topics')
   .get(ctrlForo.getTopics)
 
-  router
+router
   .route('/getAnswersByTopic/:topicId')
   .get(ctrlForo.getAnswersByTopic);
+
+router
+    .route('/getTopicsByIata/:iata')
+    .get(ctrlForo.getTopicsByIata);
 
 
 //AirLabs

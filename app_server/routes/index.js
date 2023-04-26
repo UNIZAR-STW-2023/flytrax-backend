@@ -63,6 +63,10 @@ router
     .route('/getAnswersByTopic/:topicId')
     .get(ctrlUsers.verifyToken, ctrlForo.getAnswersByTopic);
 
+router
+    .route('/getTopicsByIata/:iata')
+    .get(ctrlUsers.verifyToken, ctrlForo.getTopicsByIata);
+
 //AirLabs
 router
     .route('/saveAirports')
