@@ -98,7 +98,7 @@ const getTopicsByIata = function (req, res) {
   const Iata = {
     iata: req.params.iata,
   };
-  Answers.find(Iata).then(function (results) {
+  Topics.find(Iata).then(function (results) {
     res.status(200).json(results);
   });
 };
