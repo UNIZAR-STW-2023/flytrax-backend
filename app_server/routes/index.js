@@ -7,7 +7,6 @@ const ctrlUserMetrics = require("../controllers/usersMetrics");
 const ctrlAirportsMetrics = require("../controllers/airportsMetrics");
 
 
-
 //Users
 router
     .route('/users')
@@ -96,6 +95,16 @@ router
 router
   .route('/getUsersRegisteredByPeriod')
   .get(ctrlAdmin.verifyToken, ctrlUserMetrics.getUsersRegisteredByPeriod)
+
+//Stats for users
+router
+  .route('/getUsersByCountryForUsers')
+  .get(ctrlUsers.verifyToken, ctrlUsers.getUsersByCountryForUsers)
+
+router
+  .route('/getAirportsByNumberOfSaves')
+  .get(ctrlUsers.verifyToken, ctrlUsers.getAirportsByNumberOfSaves)
+
 
 module.exports = router;
         

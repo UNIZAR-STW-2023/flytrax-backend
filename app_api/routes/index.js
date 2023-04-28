@@ -97,8 +97,14 @@ router
   .route('/getUsersRegisteredByPeriod')
   .get(ctrlUserMetrics.getUsersRegisteredByPeriod)
 
+//Stats for users
+router
+  .route('/getUsersByCountryForUsers')
+  .get(ctrlUsers.getUsersByCountryForUsers)
 
-  
+router
+  .route('/getAirportsByNumberOfSaves')
+  .get(ctrlUsers.getAirportsByNumberOfSaves)
 
 
 module.exports = router;
