@@ -2,9 +2,9 @@ const Answers = require('../models/answers');
 const Topics = require('../models/topics');
 const { ObjectId } = require('mongodb');
 
-//const clientURL = "http://localhost:3000";
+const clientURL = "http://localhost:3000";
 //const clientURL = "https://flytraxserver-758723.b4a.run";
-const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "https://flytrax-backend.vercel.app"
 
 /* CREATE TOPICS */
 
