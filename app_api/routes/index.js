@@ -68,8 +68,11 @@ router
 
 //Airports Metrics
 router
-    .route('/getConcurrencyByAirport/:iata')
-    .get(ctrlAirportsMetrics.getConcurrencyByAirport);
+    .route('/getFlightsEachDay/:iata')
+    .get(ctrlAirportsMetrics.getFlightsEachDay);
+  router
+    .route('/getFlightsDelayedLastWeek/:iata')
+    .get(ctrlAirportsMetrics.getFlightsDelayedLastWeek);
 
 
 //User Metrics
