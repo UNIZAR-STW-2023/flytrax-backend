@@ -43,7 +43,7 @@ router
 //Airports Metrics
 router
     .route('/getFlightsEachDay/:iata')
-    .get(ctrlAirportsMetrics.getFlightsEachDay);
+    .get(ctrlUsers.verifyToken, ctrlAirportsMetrics.getFlightsEachDay);
 
     
 //Foro
