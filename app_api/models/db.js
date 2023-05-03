@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-
+//Conexion base de datos
 let dbURI =
   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
