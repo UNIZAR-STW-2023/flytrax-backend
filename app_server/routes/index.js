@@ -31,14 +31,17 @@ router
 
 router
     .route('/banUsers')
-    .post(ctrlUsers.verifyToken, ctrlUsers.banUsers)
-    .get(ctrlUsers.verifyToken, ctrlUsers.getBannedUsers);
+    .post(ctrlAdmin.verifyToken, ctrlUsers.banUsers)
+    .get(ctrlAdmin.verifyToken, ctrlUsers.getBannedUsers);
 
 router
     .route('/unBanUsers')
-    .post(ctrlUsers.verifyToken, ctrlUsers.unBanUsers);
+    .post(ctrlAdmin.verifyToken, ctrlUsers.unBanUsers);
 
-//Airports Metrics
+  //Este es para el usuario
+  router
+    .route('/deleteUser')
+    .post(ctrlUsers.verifyToken, ctrlUsers.banUsers)
 
 //Airports Metrics
 router

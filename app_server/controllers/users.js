@@ -339,17 +339,17 @@ const banUsers = function (req, res) {
     .post(url, postdata)
     .then((response) => {
       if (response.data) {
-        logger.info(`Se ha baneado correctamente al usuario con email ${email} en la llamada a ${path}`);
+        logger.info(`Se ha baneado correctamente al usuario con email ${postdata.email} en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
-        logger.warn(`No se ha podido banear al usuario con email ${email} en la llamada a ${path}`);
+        logger.warn(`No se ha podido banear al usuario con email ${postdata.email} en la llamada a ${path}`);
         res
           .status(404)
           .send("No se ha podido eliminar/bannear al usuario");
       }
     })
     .catch((error) => {
-      logger.error(`Ha ocurrido un error mientras se baneaba al usuario ${email}: ${error} en la llamada a ${path}`);
+      logger.error(`Ha ocurrido un error mientras se baneaba al usuario ${postdata.email}: ${error} en la llamada a ${path}`);
 
     });
 };
@@ -366,17 +366,17 @@ const unBanUsers = function (req, res) {
     .post(url, postdata)
     .then((response) => {
       if (response.data) {
-        logger.info(`Se ha desbaneado correctamente al usuario con email ${email} en la llamada a ${path}`);
+        logger.info(`Se ha desbaneado correctamente al usuario con email ${postdata.email} en la llamada a ${path}`);
         res.status(200).json(response.data);
       } else {
-        logger.warn(`No se ha podido desbanear al usuario con email ${email} en la llamada a ${path}`);
+        logger.warn(`No se ha podido desbanear al usuario con email ${postdata.email} en la llamada a ${path}`);
         res
           .status(404)
           .send("No se ha podido desbanear al usuario");
       }
     })
     .catch((error) => {
-      logger.error(`Ha ocurrido un error mientras se desbaneaba al usuario ${email}: ${error} en la llamada a ${path}`);
+      logger.error(`Ha ocurrido un error mientras se desbaneaba al usuario ${postdata.email}: ${error} en la llamada a ${path}`);
 
     });
 };
