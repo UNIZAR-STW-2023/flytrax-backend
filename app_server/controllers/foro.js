@@ -1,12 +1,11 @@
 const axios = require("axios");
-
 const logger = require('../utils/logger');
 
 
 
 const apiOptions = {
-  server: "http://localhost:3000",
-  //server : 'https://flytrax-backend.vercel.app' 
+  //server: "http://localhost:3000",
+  server : 'https://flytrax-backend.vercel.app' 
 };
 /* CREATE TOPICS */
 const createTopics = function (req, res) {

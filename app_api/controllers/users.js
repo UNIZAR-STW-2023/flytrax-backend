@@ -6,12 +6,10 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
 const Admins = require("../models/admins");
-const favAirports = require("../models/favAirports");
 
 const bcryptSalt = 10;
-const clientURL = "http://localhost:3000";
-//const clientURL = "https://flytraxserver-758723.b4a.run";
-//const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "http://localhost:3000";
+const clientURL = "https://flytrax-backend.vercel.app"
 
 const _buildUsersList = function (results) {
   let users = [];
@@ -235,42 +233,27 @@ const saveAirports = async (req, res) => {
 };
 
 const getUsersByCountryForUsers = async (req, res) => {
-  // Obtén todos los usuarios de la base de datos
   const users = await Users.find();
-  
-  // Crea un objeto vacío para almacenar los conteos de usuarios por país
   let usersByCountry = {};
-  
-  // Recorre cada usuario y obtén el país de origen del usuario
   users.forEach(user => {
     const country = user.country;
     
-    // Si el país de origen del usuario ya existe en el objeto de conteo, incrementa su valor en uno. De lo contrario, crea una nueva clave en el objeto de conteo con un valor de 1.
     if (usersByCountry.hasOwnProperty(country)) {
       usersByCountry[country]++;
     } else {
       usersByCountry[country] = 1;
     }
   });
-  
-  // Envía la respuesta al cliente con los conteos de usuarios por país
-  res.json(usersByCountry);
+    res.json(usersByCountry);
 };
 
 
 const getAirportsByNumberOfSaves = async (req, res) => {
-  // Obtengo todos los aeropuertos favoritos de la bd
   const favAirports = await FavAirports.find();
-  
-  // Crea un objeto vacío para almacenar los conteos de aeropuertos guardados en favoritos
-  let airportsByNumberOfSaves = {};
-  
-  // Recorre cada uno de los aeropuertos guardados alguna vez en favoritos y obtiene su iata
-  favAirports.forEach(favAirports => {
+    let airportsByNumberOfSaves = {};
+    favAirports.forEach(favAirports => {
     const iata = favAirports.iata;
-    
-    // Si el aeropuerto favorito ya existe en el objeto de conteo, incrementa su valor en uno. De lo contrario, crea una nueva clave en el objeto de conteo con un valor de 1.
-    if (airportsByNumberOfSaves.hasOwnProperty(iata)) {
+        if (airportsByNumberOfSaves.hasOwnProperty(iata)) {
       airportsByNumberOfSaves[iata]++;
     } else {
       airportsByNumberOfSaves[iata] = 1;

@@ -70,9 +70,7 @@ router
 router
     .route('/getFlightsEachDay/:iata')
     .get(ctrlAirportsMetrics.getFlightsEachDay);
-  router
-    .route('/getFlightsDelayedLastWeek/:iata')
-    .get(ctrlAirportsMetrics.getFlightsDelayedLastWeek);
+
 
 
 //User Metrics

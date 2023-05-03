@@ -1,9 +1,8 @@
 const axios = require("axios");
-const moment = require('moment');
 
 const apiOptions = {
-  server: "http://localhost:3000",
-  //server : 'https://flytrax-backend.vercel.app' 
+  //server: "http://localhost:3000",
+  server : 'https://flytrax-backend.vercel.app' 
 };
 
 const getFlightsEachDay = async (req, res) => {
@@ -54,13 +53,9 @@ const getFlightsEachDay = async (req, res) => {
 };
 
 
-const getFlightsDelayedLastWeek = async (req, res) => {
-  res.send("flights delayed")
 
-}
 
 module.exports = {
   getFlightsEachDay,
-  getFlightsDelayedLastWeek
 };
 

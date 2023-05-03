@@ -1,8 +1,5 @@
 const mongoose = require("mongoose");
 
-//Para que lance al menos la pantalla '/' en vercel habría que ponerle 'var dbURI'
-// const dbURI =
-//   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
 
 let dbURI =
   'mongodb+srv://flytrax-admin:bernalhernandez_stw@flytrax-db.eox4ruo.mongodb.net/flytrax-main-db?retryWrites=true&w=majority';
@@ -13,7 +10,6 @@ let dbURI =
 // }
 
 mongoose.set("strictQuery", true);
-// mongoose.connect(dbURI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 console.log(`About to connect to ${dbURI}`);
 
