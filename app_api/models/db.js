@@ -13,7 +13,7 @@ mongoose.set("strictQuery", true);
 
 console.log(`About to connect to ${dbURI}`);
 
-// Conectar a la base de datos
+// Conectar a la base de datos de mongodb
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
