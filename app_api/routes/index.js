@@ -66,6 +66,10 @@ router
   .route('/saveAirports')
   .post(ctrlUsers.saveAirports);
 
+router
+  .route('/deleteFavAirports')
+  .post(ctrlUsers.deleteFavAirports);
+
 //Airports Metrics
 router
     .route('/getFlightsEachDay/:iata')

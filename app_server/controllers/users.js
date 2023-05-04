@@ -431,6 +431,39 @@ const saveAirports = function (req, res) {
   }
 }
 
+/* DELETE fav airports */
+const deleteFavAirports = function (req, res) {
+  const path = "/api/deleteFavAirports";
+  const url = apiOptions.server + path;
+
+  const postdata = {
+    email: req.body.email,
+    iata: req.body.iata,
+  };
+
+  if (!postdata.email || !postdata.iata) {
+    logger.warn(`No se ha especificado el email o el IATA en la llamada a ${path}. Imposible eliminar de la BD`);
+    res.status(404).send("Faltan campos. Imposible eliminar");
+  } else {
+    axios
+    .post(url, postdata)
+    .then((response) => {
+      if (response.data) {
+        res.status(200).json(response.data);
+        logger.info(`Se ha eliminado correctamente el aeropuerto ${postdata.iata} como favorito del usuario ${postdata.email} en la llamada a ${path}`);
+      } else {
+        logger.warn(`No hemos encontrado ningun usuario con el email ${postdata.email} en la llamada a ${path}`);
+        res
+          .status(404)
+          .send("No hemos encontrado ningún usuario con ese email...");
+      }
+    })
+    .catch((error) => {
+       logger.warn(`Se ha producido un error en la llamada a ${path}: ${error}`);
+    });
+  }
+}
+
 /* CREATE TOPICS */
 const createTopics = function (req, res) {
   const path = "/api/createTopics";
@@ -518,6 +551,7 @@ module.exports = {
   getBannedUsers,
   resetPassword,
   saveAirports,
+  deleteFavAirports,
   createTopics,
   verifyToken,
   getUsersByCountryForUsers,

@@ -75,6 +75,11 @@ router
     .route('/saveAirports')
     .post(ctrlUsers.verifyToken, ctrlUsers.saveAirports);
 
+router
+    .route('/deleteFavAirport')
+    .post(ctrlUsers.verifyToken, ctrlUsers.deleteFavAirports);
+
+
 //User Metrics
 router
   .route('/getUsersByGenre')

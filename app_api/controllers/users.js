@@ -232,6 +232,32 @@ const saveAirports = async (req, res) => {
   });
 };
 
+const deleteFavAirports = async (req, res) => {
+
+  const email = req.body.email;
+  const iata = req.body.iata;
+
+  FavAirports.deleteMany({ email: email, iata: iata }, function (err, result) {
+    if (err) {
+      console.log(err);
+      res.status(500).json({
+        "status": "Error",
+        "message": "Ha ocurrido un error al eliminar el aeropuerto favorito."
+      });
+    } else {
+      console.log(result);
+      res.status(200).json({
+        "status": "Eliminado correctamente",
+        "email": email,
+        "iata": iata
+      });
+    }
+  });
+};
+
+
+
+
 const getUsersByCountryForUsers = async (req, res) => {
   const users = await Users.find();
   let usersByCountry = {};
@@ -275,6 +301,7 @@ module.exports = {
   unBanUsers,
   getBannedUsers,
   saveAirports,
+  deleteFavAirports,
   getUsersByCountryForUsers,
   getAirportsByNumberOfSaves
 };
