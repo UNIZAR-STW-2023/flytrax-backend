@@ -5,7 +5,7 @@ const TokenAuth = require('../../app_api/models/tokenAuth');
 const Admins = require("../../app_api/models/admins");
 const logger = require('../utils/logger');
 
-
+//Con esto cambiamos el nodo
 const apiOptions = {
   //server: "http://localhost:3000",
   server : 'https://flytrax-backend.vercel.app' 
