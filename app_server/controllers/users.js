@@ -254,9 +254,7 @@ const loginUsers = function (req, res) {
                 {
                   email,
                 },
-                "stw_2023!admin_",
-                { expiresIn: "400h" }
-              );
+                "stw_2023!admin_"              );
               updateAdminToken(email,tokenAdmin)
               jsonResponse = {
                 status: "Sucessful",

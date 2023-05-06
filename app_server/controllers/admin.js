@@ -44,6 +44,8 @@ const verifyToken = function (req, res, next) {
 
   try {
     const decoded = jwt.verify(token_wo_prefix, "stw_2023!admin_");
+    console.log(decoded)
+
     verifyAdminToken(decoded.email, token_wo_prefix, function(result) {
       if (result){
         next()
@@ -53,6 +55,7 @@ const verifyToken = function (req, res, next) {
     });
     
   } catch (error) {
+    console.log(error)
     return res.status(400).send("No se permite realizar esa operacion. Permiso denegado");
   }
 };
@@ -133,5 +136,9 @@ const getBannedUsers = function (req, res) {
 
 
 module.exports = {
-  verifyToken
+  verifyToken,
+  getUsers, 
+  banUsers, 
+  unBanUsers,
+  getBannedUsers
 };
