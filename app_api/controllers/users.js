@@ -52,7 +52,7 @@ const postUsers = function (req, res) {
   };
 
 
-  // Insertamos el usuario en la colección "Users"
+  // Insertamos el usuario en la colección Users
   Users.create(user, function (results) {
     res.status(200).json({
       User: user,
