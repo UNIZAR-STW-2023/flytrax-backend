@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   res.send("Flytrax backend runnnnnning!");
 });
 
-// view engine setup
+// View engine setup
 app.set("views", path.join(__dirname, "app_server", "views"));
 app.set("view engine", "hbs");
 
