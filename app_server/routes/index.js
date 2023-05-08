@@ -10,6 +10,22 @@ const ctrlAirportsMetrics = require("../controllers/airportsMetrics");
 //Users
 router
     .route('/users')
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Obtener lista de usuarios
+ *     description: Retorna una lista de usuarios.
+ *     security:
+ *          - BearerAuth: []
+ *     responses:
+ *       200:
+ *         description: OK. La lista de usuarios se ha obtenido correctamente.
+ *       404:
+ *         description: No se encontraron usuarios.
+ *       500:
+ *         description: Error del servidor. Ha ocurrido un error al obtener los usuarios.
+ */
     .get(ctrlAdmin.verifyToken, ctrlUsers.getUsers) //Esta es solo para el admin
     .post(ctrlUsers.postUsers);
 

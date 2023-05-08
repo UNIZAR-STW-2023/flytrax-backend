@@ -24,12 +24,12 @@ var app = express();
 // swagger definition
 var swaggerDefinition = {
   info: {
-    title: 'API de gestión de usuarios',
+    title: 'API de Flytrax',
     version: '1.0.0',
-    description: 'Descripción del API del servicio de usuarios'
+    description: 'Descripción de la API del proyecto Flytrax'
   },
   host: 'localhost:3000',
-  basePath: '/api/',
+  basePath: '/',
   schemes: ['http']
 };
 
@@ -37,8 +37,15 @@ var swaggerDefinition = {
 var options = {
   // import swaggerDefinitions 
   swaggerDefinition: swaggerDefinition, 
+  securityDefinitions: {
+    BearerAuth: {
+      type: 'apiKey',
+      name: 'Authorization',
+      in: 'header',
+    },
+  },
   // path to the API docs
-  apis: ['./app_api/routes/*.js'],
+  apis: ['./app_server/routes/*.js'],
 };
 
 // initialize swagger-jsdoc
@@ -49,17 +56,7 @@ app.get('/swagger.json', function(req, res) {
   res.send(swaggerSpec);
 });
 
-//ESPECIFICACIÓN PRUEBA ???
- /* GET home page. */
- /**
-  * @openapi
-  * /:
-  *   get:
-  *    description: Welcome to Flytrax API!
-  *   responses:  
-  *    '200':
-  *      description: A successful response
-*/
+
 //Función para el home
 app.get("/", (req, res) => {
   res.send("Flytrax backend runnnnnning!");
