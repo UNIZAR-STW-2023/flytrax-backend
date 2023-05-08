@@ -488,76 +488,625 @@ router
  */
     .post(ctrlUsers.verifyToken, ctrlUsers.banUsers)
 
-//Airports Metrics
-router
-    .route('/getFlightsEachDay/:iata')
-    .get(ctrlUsers.verifyToken, ctrlAirportsMetrics.getFlightsEachDay);
-
     
 //Foro
 router
   .route('/createTopics')
+/**
+ * @swagger
+ *
+ * /createTopics:
+ *   post:
+ *     summary: Crea un nuevo tema en el foro.
+ *     description: Permite a un usuario crear un nuevo tema en el foro.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         description: Información del nuevo tema a crear.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: integer
+ *               description: Identificador del usuario que crea el tema.
+ *             title:
+ *               type: string
+ *               description: Título del tema.
+ *             description:
+ *               type: string
+ *               description: Descripción del tema.
+ *             iata:
+ *               type: string
+ *               description: Código IATA del aeropuerto relacionado con el tema.
+ *             respuestas:
+ *               type: array
+ *               description: Lista de respuestas al tema (opcional).
+ *               items:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: OK. El tema se ha creado correctamente.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: El tema se ha creado correctamente.
+ *       404:
+ *         description: No se ha podido crear el tema.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: No se ha podido crear el tema.
+ *       500:
+ *         description: Error interno del servidor.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: Ocurrió un error al intentar crear el tema. Por favor, inténtelo de nuevo más tarde.
+ *     tags:
+ *       - Foro
+ */
+
   .post(ctrlUsers.verifyToken, ctrlForo.createTopics);
 
 router
   .route('/createAnswers')
+  /**
+ * @swagger
+ *
+ * /createAnswers:
+ *   post:
+ *     summary: Crear una respuesta.
+ *     description: Crea una nueva respuesta en un tema existente.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: body
+ *         in: body
+ *         description: Datos de la respuesta a crear.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             userId:
+ *               type: string
+ *               description: ID del usuario que crea la respuesta.
+ *             topicId:
+ *               type: string
+ *               description: ID del tema en el que se está creando la respuesta.
+ *             content:
+ *               type: string
+ *               description: Contenido de la respuesta.
+ *     responses:
+ *       200:
+ *         description: OK. La respuesta ha sido creada correctamente.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: La respuesta ha sido creada correctamente.
+ *       404:
+ *         description: No se ha podido crear la respuesta.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: No se ha podido crear la respuesta.
+ *       500:
+ *         description: Error interno del servidor.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: Ocurrió un error al intentar crear la respuesta. Por favor, inténtelo de nuevo más tarde.
+ *     tags:
+ *       - Foro
+ */
+
   .post(ctrlUsers.verifyToken, ctrlForo.createAnswers);
 
 router
   .route('/topics')
+  /**
+ * @swagger
+ *
+ * /topics:
+ *   get:
+ *     summary: Recupera una lista de temas.
+ *     description: Recupera una lista de temas.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: OK. La lista de temas ha sido recuperada correctamente.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: La lista de temas ha sido recuperada correctamente.
+ *             data:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   title:
+ *                     type: string
+ *                     example: "Tema 1"
+ *                   description:
+ *                     type: string
+ *                     example: "Descripción del tema 1"
+ *                   iata:
+ *                     type: string
+ *                     example: "MAD"
+ *                   respuestas:
+ *                     type: integer
+ *                     example: 3
+ *       404:
+ *         description: No se ha podido recuperar la lista de temas.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: No hemos encontrado ningún tema...
+ *       500:
+ *         description: Error interno del servidor.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: Ocurrió un error al intentar recuperar la lista de temas. Por favor, inténtelo de nuevo más tarde.
+ *     tags:
+ *       - Foro
+ */
   .get(ctrlUsers.verifyToken, ctrlForo.getTopics)
 
 router
     .route('/getAnswersByTopic/:topicId')
+    /**
+ * @swagger
+ *
+ * /getAnswersByTopic/{topicId}:
+ *   get:
+ *     summary: Recupera la lista de respuestas por id de tema.
+ *     description: Recupera la lista de respuestas asociadas a un tema específico mediante su id.
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: topicId
+ *         in: path
+ *         description: ID del tema para el cual se buscan las respuestas.
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: OK. Se ha recuperado la lista de respuestas correctamente.
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: integer
+ *                 description: ID de la respuesta.
+ *               userId:
+ *                 type: integer
+ *                 description: ID del usuario que ha creado la respuesta.
+ *               topicId:
+ *                 type: integer
+ *                 description: ID del tema al que pertenece la respuesta.
+ *               content:
+ *                 type: string
+ *                 description: Contenido de la respuesta.
+ *               createdAt:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Fecha y hora de creación de la respuesta.
+ *               updatedAt:
+ *                 type: string
+ *                 format: date-time
+ *                 description: Fecha y hora de última actualización de la respuesta.
+ *       404:
+ *         description: No se ha encontrado ningún tema con ese id.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: No hemos encontrado ningún tema con ese id...
+ *       500:
+ *         description: Error interno del servidor.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             message:
+ *               type: string
+ *               example: Error al recuperar las respuestas en la llamada a /api/getAnswersByTopic/{topicId}. Por favor, inténtelo de nuevo más tarde.
+ *     tags:
+ *       - Foro
+ */
+
     .get(ctrlUsers.verifyToken, ctrlForo.getAnswersByTopic);
 
 router
     .route('/getTopicsByIata/:iata')
+    /**
+ * @swagger
+ * /getTopicsByIata/{iata}:
+ *   get:
+ *     summary: Obtiene una lista de temas por código IATA.
+ *     description: Obtiene una lista de temas relacionados con un código IATA específico.
+ *     parameters:
+ *       - in: path
+ *         name: iata
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Código IATA.
+ *     responses:
+ *       '200':
+ *         description: Lista de temas recuperados correctamente.
+ *       '404':
+ *         description: No se han encontrado temas con el código IATA proporcionado.
+ *     tags:
+ *       - Foro
+ */
     .get(ctrlUsers.verifyToken, ctrlForo.getTopicsByIata);
 
 //AirLabs
 router
     .route('/saveAirports')
+    /**
+ * @swagger
+ * /saveAirports:
+ *   post:
+ *     summary: Guarda el aeropuerto como favorito del usuario
+ *     description: Permite guardar un aeropuerto como favorito de un usuario en la base de datos.
+ *     tags:
+ *       - Foro
+ *     parameters:
+ *       - in: body
+ *         name: airport
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *             iata:
+ *               type: string
+ *     responses:
+ *       200:
+ *         description: Se ha introducido correctamente el aeropuerto en la base de datos
+ *       404:
+ *         description: No se ha especificado el email o el IATA, o no se ha encontrado el usuario con ese email
+ */
     .post(ctrlUsers.verifyToken, ctrlUsers.saveAirports);
 
 router
     .route('/deleteFavAirport')
+    /**
+ * @swagger
+ * /deleteFavAirports:
+ *   post:
+ *     summary: Elimina un aeropuerto de la lista de favoritos de un usuario
+ *     tags: [Foro]
+ *     parameters:
+ *       - in: body
+ *         name: postdata
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             email:
+ *               type: string
+ *               description: El email del usuario que quiere eliminar el aeropuerto de su lista de favoritos
+ *             iata:
+ *               type: string
+ *               description: El IATA del aeropuerto que se quiere eliminar de la lista de favoritos del usuario
+ *     responses:
+ *       200:
+ *         description: Se ha eliminado el aeropuerto de la lista de favoritos del usuario correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Un mensaje indicando que se ha eliminado el aeropuerto de la lista de favoritos del usuario
+ *         example:
+ *           message: Se ha eliminado correctamente el aeropuerto JFK como favorito del usuario usuario@ejemplo.com en la llamada a /api/deleteFavAirports
+ *       400:
+ *         description: Faltan campos en la petición
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Un mensaje indicando que faltan campos en la petición
+ *             example:
+ *               message: Faltan campos. Imposible eliminar
+ *       404:
+ *         description: No se ha encontrado el usuario o el aeropuerto especificado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Un mensaje indicando que no se ha encontrado el usuario o el aeropuerto especificado
+ *             example:
+ *               message: No hemos encontrado ningún usuario con ese email...
+ */
     .post(ctrlUsers.verifyToken, ctrlUsers.deleteFavAirports);
 
 
-//User Metrics
+//Métricas para mostrar a usuario
 router
   .route('/getUsersByGenre')
+  /**
+ * @swagger
+ *
+ * /getUsersByGenre:
+ *   get:
+ *     tags:
+ *       - Métricas para administrador
+ *     summary: Obtiene la lista de usuarios por género
+ *     description: Este endpoint devuelve la lista de usuarios ordenada por género.
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios por género obtenida correctamente
+ *       404:
+ *         description: No se ha encontrado ningún usuario por género
+ *       500:
+ *         description: Error al obtener la lista de usuarios por género
+ */
   .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByGenre)
 
 router
   .route('/getUsersBanned')
+  /**
+ * @swagger
+ * /getUsersBanned:
+ *   get:
+ *     summary: Obtiene una lista de usuarios baneados
+ *     tags: 
+ *       - Métricas para administrador
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios baneados
+ *       400:
+ *         description: No se pudo recuperar la lista de usuarios baneados
+ *       500:
+ *         description: Ha habido un error al recuperar la lista de usuarios baneados
+ */
   .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getBannedUsers)
 
 router
   .route('/getUsersBannedByGenre')
+  /**
+ * @swagger
+ * /getUsersBannedByGenre:
+ *   get:
+ *     summary: Obtiene la lista de usuarios baneados por género
+ *     tags: 
+ *       - Métricas para administrador
+ *     responses:
+ *       '200':
+ *         description: Lista de usuarios baneados por género
+ *       '400':
+ *         description: No se ha podido recuperar la lista de usuarios baneados por género
+ *       '500':
+ *         description: Ha habido un error al recuperar la lista de usuarios baneados por género
+ */
   .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getBannedUsersByGenre)
 
 router
   .route('/getUsersByAgeRange')
+  /**
+ * @swagger
+ * /getUsersByAgeRange:
+ *   get:
+ *     summary: Recupera la lista de usuarios por rango de edad
+ *     description: Recupera la lista de usuarios registrados en la aplicación dentro de un rango de edades específico.
+ *     tags: [Métricas para administrador]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios recuperada correctamente.
+ *       400:
+ *         description: No se ha podido recuperar la lista de usuarios por rango de edad.
+ *       500:
+ *         description: Error al recuperar la lista de usuarios por rango de edad.
+ */
   .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByAgeRange)
 
 router
-  .route('/getUsersByCountry')
+.route('/getUsersByCountry')
+  /**
+ * @swagger
+ * /getUsersByCountry:
+ *   get:
+ *     summary: Recupera la lista de usuarios por pais de pertenencia
+ *     description: Recupera la lista de usuarios registrados en la aplicación que pertenecen a un pais.
+ *     tags: [Métricas para administrador]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios recuperada correctamente.
+ *       400:
+ *         description: No se ha podido recuperar la lista de usuarios por pais.
+ *       500:
+ *         description: Error al recuperar la lista de usuarios por pais.
+ */
   .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByCountry)
 
 router
   .route('/getUsersRegisteredByPeriod')
+/**
+ * @swagger
+ * /getUsersRegisteredByPeriod:
+ *   get:
+ *     summary: Retorna una lista de usuarios registrados por periodo de tiempo
+ *     description: Retorna una lista de usuarios registrados en un periodo de tiempo especificado por el usuario.
+ *     tags: [Métricas para administrador]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios registrados por periodo de tiempo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *       400:
+ *         description: No se pudo recuperar la lista de usuarios registrados por periodo de tiempo
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+
+  
   .get(ctrlAdmin.verifyToken, ctrlUserMetrics.getUsersRegisteredByPeriod)
 
 //Stats for users
 router
   .route('/getUsersByCountryForUsers')
+  /**
+ * @swagger
+ * /getUsersByCountryForUsers:
+ *   get:
+ *     summary: Obtiene la lista de usuarios por país
+ *     tags: [Metricas para usuarios]
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios por país obtenida correctamente
+ *       400:
+ *         description: No se ha podido recuperar la lista de usuarios por país
+ */
   .get(ctrlUsers.verifyToken, ctrlUsers.getUsersByCountryForUsers)
 
 router
   .route('/getAirportsByNumberOfSaves')
+  /**
+ * @swagger
+ * /getAirportsByNumberOfSaves:
+ *   get:
+ *     summary: Retorna una lista de aeropuertos ordenados por número de veces que han sido guardados como favoritos por los usuarios.
+ *     tags: 
+ *       - Metricas para usuarios
+ *     responses:
+ *       200:
+ *         description: Lista de aeropuertos ordenados por número de veces que han sido guardados como favoritos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   airportCode:
+ *                     type: string
+ *                     description: El código del aeropuerto.
+ *                   airportName:
+ *                     type: string
+ *                     description: El nombre del aeropuerto.
+ *                   numberOfSaves:
+ *                     type: integer
+ *                     description: El número de veces que ha sido guardado como favorito.
+ *       400:
+ *         description: No se ha podido recuperar la lista de aeropuertos.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Mensaje de error.
+ */
   .get(ctrlUsers.verifyToken, ctrlUsers.getAirportsByNumberOfSaves)
+
+router
+.route('/getFlightsEachDay/:iata')
+/**
+ * @swagger
+ * /getFlightsEachDay/{iata}:
+ *   get:
+ *     summary: Obtiene los vuelos llegados y salientes al aeropuerto indicado por día.
+ *     tags: [Metricas para usuarios]
+ *     parameters:
+ *       - in: path
+ *         name: iata
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Código IATA del aeropuerto.
+ *     responses:
+ *       200:
+ *         description: Lista de vuelos llegados y salientes al aeropuerto por día.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   date:
+ *                     type: string
+ *                     description: Fecha de los vuelos en formato YYYY-MM-DD.
+ *                   flights:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         airline:
+ *                           type: string
+ *                           description: Nombre de la aerolínea.
+ *                         flight_number:
+ *                           type: string
+ *                           description: Número de vuelo.
+ *                         origin:
+ *                           type: string
+ *                           description: Código IATA del aeropuerto de origen.
+ *                         scheduled_arrival:
+ *                           type: string
+ *                           description: Hora de llegada programada en formato HH:MM.
+ *                         actual_arrival:
+ *                           type: string
+ *                           description: Hora de llegada real en formato HH:MM.
+ *                         status:
+ *                           type: string
+ *                           description: Estado del vuelo.
+ *       400:
+ *         description: No se han podido obtener los vuelos llegados al aeropuerto.
+ *       500:
+ *         description: Error en el servidor.
+ */
+.get(ctrlUsers.verifyToken, ctrlAirportsMetrics.getFlightsEachDay);
 
 
 module.exports = router;

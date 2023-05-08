@@ -1,8 +1,8 @@
 const Answers = require('../models/answers');
 const Topics = require('../models/topics');
 
-const clientURL = "http://localhost:3000";
-//const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "http://localhost:3000";
+const clientURL = "https://flytrax-backend.vercel.app"
 
 /* CREATE TOPICS */
 
