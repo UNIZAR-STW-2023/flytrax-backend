@@ -16,8 +16,50 @@ const PORT = 8000;
 const index = require("./app_server/routes/index");
 const apiRoutes = require("./app_api/routes/index");
 
+//API documentation
+var swaggerJSDoc = require('swagger-jsdoc');
+
 var app = express();
 
+// swagger definition
+var swaggerDefinition = {
+  info: {
+    title: 'API de gestión de usuarios',
+    version: '1.0.0',
+    description: 'Descripción del API del servicio de usuarios'
+  },
+  host: 'localhost:3000',
+  basePath: '/api/',
+  schemes: ['http']
+};
+
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions 
+  swaggerDefinition: swaggerDefinition, 
+  // path to the API docs
+  apis: ['./app_api/routes/*.js'],
+};
+
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
+
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+//ESPECIFICACIÓN PRUEBA ???
+ /* GET home page. */
+ /**
+  * @openapi
+  * /:
+  *   get:
+  *    description: Welcome to Flytrax API!
+  *   responses:  
+  *    '200':
+  *      description: A successful response
+*/
 //Función para el home
 app.get("/", (req, res) => {
   res.send("Flytrax backend runnnnnning!");
@@ -26,6 +68,8 @@ app.get("/", (req, res) => {
 // View engine setup
 app.set("views", path.join(__dirname, "app_server", "views"));
 app.set("view engine", "hbs");
+
+app.use(express.static('public/stylesheets'));
 
 app.use(cors());
 app.use(logger("dev"));
@@ -37,6 +81,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", index); 
 app.use("/api", apiRoutes);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
