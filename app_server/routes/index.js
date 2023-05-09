@@ -30,7 +30,7 @@ router
  */
     .get(ctrlAdmin.verifyToken, ctrlUsers.getUsers) //Esta es solo para el admin
 
-    /**
+/**
  * @swagger
  * /users:
  *   post:
@@ -95,7 +95,7 @@ router
 
 router
     .route('/usersByEmail/:email')
-    /**
+/**
  * @swagger
  * /usersByEmail/{email}:
  *   get:
@@ -136,12 +136,11 @@ router
  *     tags:
  *       - Usuarios
  */
-
     .get(ctrlUsers.verifyToken, ctrlUsers.getUsersByEmail);
 
 router
     .route('/resetPasswordByEmail/:email')
-    /**
+/**
  * @swagger
  * /resetPasswordByEmail/{email}:
  *   post:
@@ -219,12 +218,11 @@ router
  *     tags:
  *       - Usuarios 
  */
-
     .post(ctrlUsers.loginUsers);
 
 router
     .route('/resetPassword')
-    /**
+/**
  * @swagger
  * /resetPassword:
  *   post:
@@ -289,12 +287,11 @@ router
  *       - Usuarios 
  * 
  */
-
     .post(ctrlUsers.verifyToken, ctrlUsers.resetPassword);
 
 router
     .route('/banUsers')
-    /**
+/**
  * @swagger
  *
  * /banUsers:
@@ -343,7 +340,8 @@ router
  *       - Administrador
  */
     .post(ctrlAdmin.verifyToken, ctrlUsers.banUsers)
-    /**
+
+/**
  * @swagger
  *
  * /banUsers:
@@ -370,7 +368,6 @@ router
  *     tags:
  *       - Administrador
  */
-
     .get(ctrlAdmin.verifyToken, ctrlUsers.getBannedUsers);
 
 router
@@ -435,10 +432,10 @@ router
  */
     .post(ctrlAdmin.verifyToken, ctrlUsers.unBanUsers);
 
-  //Este es para el usuario
+//Este es para el usuario
   router
     .route('/deleteUser')
-      /**
+/**
  * @swagger
  *
  * /deleteUser:
@@ -554,12 +551,11 @@ router
  *     tags:
  *       - Foro
  */
-
   .post(ctrlUsers.verifyToken, ctrlForo.createTopics);
 
 router
   .route('/createAnswers')
-  /**
+/**
  * @swagger
  *
  * /createAnswers:
@@ -613,12 +609,11 @@ router
  *     tags:
  *       - Foro
  */
-
   .post(ctrlUsers.verifyToken, ctrlForo.createAnswers);
 
 router
   .route('/topics')
-  /**
+/**
  * @swagger
  *
  * /topics:
@@ -679,7 +674,7 @@ router
 
 router
     .route('/getAnswersByTopic/:topicId')
-    /**
+/**
  * @swagger
  *
  * /getAnswersByTopic/{topicId}:
@@ -742,12 +737,11 @@ router
  *     tags:
  *       - Foro
  */
-
     .get(ctrlUsers.verifyToken, ctrlForo.getAnswersByTopic);
 
 router
     .route('/getTopicsByIata/:iata')
-    /**
+/**
  * @swagger
  * /getTopicsByIata/{iata}:
  *   get:
@@ -773,7 +767,7 @@ router
 //AirLabs
 router
     .route('/saveAirports')
-    /**
+/**
  * @swagger
  * /saveAirports:
  *   post:
@@ -802,7 +796,7 @@ router
 
 router
     .route('/deleteFavAirport')
-    /**
+/**
  * @swagger
  * /deleteFavAirports:
  *   post:
@@ -865,7 +859,7 @@ router
 //Métricas para mostrar a usuario
 router
   .route('/getUsersByGenre')
-  /**
+/**
  * @swagger
  *
  * /getUsersByGenre:
@@ -888,7 +882,7 @@ router
 
 router
   .route('/getUsersBanned')
-  /**
+/**
  * @swagger
  * /getUsersBanned:
  *   get:
@@ -907,7 +901,7 @@ router
 
 router
   .route('/getUsersBannedByGenre')
-  /**
+/**
  * @swagger
  * /getUsersBannedByGenre:
  *   get:
@@ -926,7 +920,7 @@ router
 
 router
   .route('/getUsersByAgeRange')
-  /**
+/**
  * @swagger
  * /getUsersByAgeRange:
  *   get:
@@ -944,8 +938,8 @@ router
   .get(ctrlAdmin.verifyToken,ctrlUserMetrics.getUsersByAgeRange)
 
 router
-.route('/getUsersByCountry')
-  /**
+  .route('/getUsersByCountry')
+/**
  * @swagger
  * /getUsersByCountry:
  *   get:
@@ -988,14 +982,12 @@ router
  *                 error:
  *                   type: string
  */
-
-  
   .get(ctrlAdmin.verifyToken, ctrlUserMetrics.getUsersRegisteredByPeriod)
 
 //Stats for users
 router
   .route('/getUsersByCountryForUsers')
-  /**
+/**
  * @swagger
  * /getUsersByCountryForUsers:
  *   get:
@@ -1011,7 +1003,7 @@ router
 
 router
   .route('/getAirportsByNumberOfSaves')
-  /**
+/**
  * @swagger
  * /getAirportsByNumberOfSaves:
  *   get:
@@ -1051,7 +1043,7 @@ router
   .get(ctrlUsers.verifyToken, ctrlUsers.getAirportsByNumberOfSaves)
 
 router
-.route('/getFlightsEachDay/:iata')
+  .route('/getFlightsEachDay/:iata')
 /**
  * @swagger
  * /getFlightsEachDay/{iata}:
