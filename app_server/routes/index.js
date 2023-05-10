@@ -615,58 +615,42 @@ router
   .route('/topics')
 /**
  * @swagger
- *
  * /topics:
  *   get:
- *     summary: Recupera una lista de temas.
- *     description: Recupera una lista de temas.
- *     produces:
- *       - application/json
+ *     summary: Recupera la lista de temas 
+ *     description: Recupera la lista de temas y devuelve la respuesta como JSON.
  *     responses:
  *       200:
- *         description: OK. La lista de temas ha sido recuperada correctamente.
- *         schema:
- *           type: object
- *           properties:
- *             message:
- *               type: string
- *               example: La lista de temas ha sido recuperada correctamente.
- *             data:
+ *         description: Se recuperó la lista de temas correctamente
+ *         content:
+ *           application/json:
+ *             schema:
  *               type: array
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
- *                     type: integer
- *                     example: 1
  *                   title:
  *                     type: string
- *                     example: "Tema 1"
  *                   description:
  *                     type: string
- *                     example: "Descripción del tema 1"
+ *                   email:
+ *                     type: string
  *                   iata:
  *                     type: string
- *                     example: "MAD"
- *                   respuestas:
- *                     type: integer
- *                     example: 3
+ *                   respuesta:
+ *                     type: array
+ *                     items:
+ *                       type: string
+ *                   date:
+ *                     type: string
+ *                     format: date-time
+
  *       404:
- *         description: No se ha podido recuperar la lista de temas.
- *         schema:
- *           type: object
- *           properties:
- *             message:
+ *         description: No se encontró ningún tema
+ *         content:
+ *           text/plain:
+ *             schema:
  *               type: string
- *               example: No hemos encontrado ningún tema...
- *       500:
- *         description: Error interno del servidor.
- *         schema:
- *           type: object
- *           properties:
- *             message:
- *               type: string
- *               example: Ocurrió un error al intentar recuperar la lista de temas. Por favor, inténtelo de nuevo más tarde.
  *     tags:
  *       - Foro
  */
