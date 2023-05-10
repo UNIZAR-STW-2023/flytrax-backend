@@ -28,7 +28,7 @@ var swaggerDefinition = {
     version: '1.0.0',
     description: 'Descripción de la API del proyecto Flytrax'
   },
-  host: 'https://flytrax-backend.vercel.app',
+  host: 'flytrax-backend.vercel.app',
   basePath: '/',
   schemes: ['https']
 };
