@@ -462,6 +462,29 @@ const deleteFavAirports = function (req, res) {
   }
 }
 
+const getFavAirports = function (req, res) {
+  console.log("Entro aqui")
+  const path = `/api/getFavAirports/${req.params.email}`;
+  const url = apiOptions.server + path;
+
+  axios
+    .get(url, {})
+    .then((response) => {
+      if (response.data) {
+        logger.info(`Se ha recuperado la lista de aeropuertos correctamente en la llamada a ${path}`);
+        res.status(200).json(response.data);
+      } else {
+        logger.warn(`No se ha podido recuperar la lista de aeropuertos correctamente en la llamada a ${path}`);
+        res
+          .status(404)
+          .send("No hemos encontrado ningún usuario con ese email...");
+      }
+    })
+    .catch((error) => {
+      logger.error(`Error al recuperar los aeropuertos en la llamada a ${path}: ${error}`);
+    });
+};
+
 /* CREATE TOPICS */
 const createTopics = function (req, res) {
   const path = "/api/createTopics";
@@ -550,6 +573,7 @@ module.exports = {
   resetPassword,
   saveAirports,
   deleteFavAirports,
+  getFavAirports,
   createTopics,
   verifyToken,
   getUsersByCountryForUsers,

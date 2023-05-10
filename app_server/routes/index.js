@@ -774,7 +774,7 @@ router
  *     summary: Guarda el aeropuerto como favorito del usuario
  *     description: Permite guardar un aeropuerto como favorito de un usuario en la base de datos.
  *     tags:
- *       - Foro
+ *       - Aeropuertos favoritos usuario
  *     parameters:
  *       - in: body
  *         name: airport
@@ -801,7 +801,7 @@ router
  * /deleteFavAirports:
  *   post:
  *     summary: Elimina un aeropuerto de la lista de favoritos de un usuario
- *     tags: [Foro]
+ *     tags: [Aeropuertos favoritos usuario]
  *     parameters:
  *       - in: body
  *         name: postdata
@@ -854,7 +854,38 @@ router
  *               message: No hemos encontrado ningún usuario con ese email...
  */
     .post(ctrlUsers.verifyToken, ctrlUsers.deleteFavAirports);
-
+  router
+    .route('/getFavAirports/:email')
+    /**
+ * @swagger
+ * /getFavAirports/{email}:
+ *   get:
+ *     summary: Obtiene una lista de aeropuertos favoritos para un usuario determinado
+ *     tags: [Aeropuertos favoritos usuario]
+ *     parameters:
+ *       - in: path
+ *         name: email
+ *         description: Dirección de correo electrónico del usuario
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Lista de aeropuertos favoritos para el usuario especificado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *       404:
+ *         description: No se ha encontrado ningún usuario con el correo electrónico especificado
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ */
+    .get(ctrlUsers.verifyToken, ctrlUsers.getFavAirports);
 
 //Métricas para mostrar a usuario
 router

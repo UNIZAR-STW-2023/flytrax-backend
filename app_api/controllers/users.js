@@ -255,6 +255,13 @@ const deleteFavAirports = async (req, res) => {
   });
 };
 
+const getFavAirports = function (req, res) {
+  console.log(req.params.email)
+  FavAirports.distinct("iata", {email: req.params.email}).then(function (results) {
+    res.status(200).json(results);
+  });
+};
+
 
 
 
@@ -302,6 +309,7 @@ module.exports = {
   getBannedUsers,
   saveAirports,
   deleteFavAirports,
+  getFavAirports,
   getUsersByCountryForUsers,
   getAirportsByNumberOfSaves
 };

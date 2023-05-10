@@ -70,6 +70,10 @@ router
   .route('/deleteFavAirports')
   .post(ctrlUsers.deleteFavAirports);
 
+  router
+    .route('/getFavAirports/:email')
+    .get(ctrlUsers.getFavAirports);
+
 //Airports Metrics
 router
     .route('/getFlightsEachDay/:iata')
