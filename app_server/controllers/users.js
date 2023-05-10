@@ -291,7 +291,7 @@ const loginUsers = function (req, res) {
               res.status(200);
             });
             jsonResponse = {
-              status: "Sucessful",
+              status: "Successful",
               email: postdata.email,
               tokenUser: tokenUser,
               tokenAdmin:""
