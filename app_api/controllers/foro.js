@@ -9,14 +9,14 @@ const clientURL = "https://flytrax-backend.vercel.app"
 const createTopics = async (req, res) => {
 
 console.log("Entro a crear el topico craack")
-  userId = req.body.userId
+  email = req.body.email
   title = req.body.title
   description = req.body.description
   respuestas = req.body.respuestas
   iata = req.body.iata
 
   const postData = {
-    userId: userId,
+    email: email,
     title: title,
     description: description,
     iata: iata,
@@ -27,7 +27,7 @@ console.log("Entro a crear el topico craack")
 
     res.status(200).json({
       "status": "Creado correctamente",
-      "userId": userId,
+      "email": email,
       "title": title,
       "description": description,
       "iata": iata,
@@ -38,15 +38,12 @@ console.log("Entro a crear el topico craack")
 };
 
 const createAnswers = async (req, res) => {
-
-
-
-  userId = req.body.userId
+  email = req.body.email
   topicId = req.body.topicId
   content = req.body.content
 
   const postData = {
-    userId: userId,
+    email: email,
     topicId: topicId,
     content: content,
   }
@@ -66,7 +63,7 @@ const createAnswers = async (req, res) => {
     // Responder al cliente
     res.status(200).json({
       "status": "Respondido correctamente",
-      "userId": userId,
+      "email": email,
       "topicId": topicId,
       "content": content,
     });

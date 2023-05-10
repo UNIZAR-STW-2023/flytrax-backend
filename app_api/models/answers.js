@@ -14,10 +14,9 @@ const answersSchema = new mongoose.Schema({
     required: true,
     ref: 'Topics',
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
+  email: {
+    type: String,
     required: true,
-    ref: 'Users',
   }
 });
 

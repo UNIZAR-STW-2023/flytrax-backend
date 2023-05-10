@@ -509,9 +509,9 @@ router
  *         schema:
  *           type: object
  *           properties:
- *             id:
+ *             email:
  *               type: integer
- *               description: Identificador del usuario que crea el tema.
+ *               description: email del usuario que crea el tema.
  *             title:
  *               type: string
  *               description: Título del tema.
@@ -576,9 +576,9 @@ router
  *         schema:
  *           type: object
  *           properties:
- *             userId:
+ *             email:
  *               type: string
- *               description: ID del usuario que crea la respuesta.
+ *               description: email del usuario que crea la respuesta.
  *             topicId:
  *               type: string
  *               description: ID del tema en el que se está creando la respuesta.

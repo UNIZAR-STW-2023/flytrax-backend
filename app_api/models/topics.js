@@ -13,10 +13,9 @@ const topicsSchema = new mongoose.Schema({
     type: Date, 
     default: Date.now,
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
+  email: {
+    type: String,
     required: true,
-    ref: 'Users',
   },
   iata: {
     type: String,

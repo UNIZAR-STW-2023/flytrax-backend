@@ -13,7 +13,7 @@ const createTopics = function (req, res) {
   const url = apiOptions.server + path;
 
   const postdata = {
-    userId: req.body.id,
+    email: req.body.email,
     title: req.body.title,
     description: req.body.description,
     iata: req.body.iata,
@@ -44,12 +44,12 @@ const createAnswers = function (req, res) {
   const path = "/api/createAnswers";
   const url = apiOptions.server + path;
 
-  userId = req.body.userId
+  email = req.body.email
   topicId = req.body.topicId
   content = req.body.content
 
   const postData = {
-    userId: userId,
+    email: email,
     topicId: topicId,
     content: content,
   }
