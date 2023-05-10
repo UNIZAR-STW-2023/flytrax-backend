@@ -8,8 +8,8 @@ const sendEmail = require("../Utils/emails.js");
 const Admins = require("../models/admins");
 
 const bcryptSalt = 10;
-//const clientURL = "http://localhost:3000";
-const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "localhost:3000";
+const clientURL = "flytrax-backend.vercel.app"
 
 const _buildUsersList = function (results) {
   let users = [];
@@ -97,7 +97,8 @@ const resetPasswordByEmail = async function (req, res) {
     createdAt: Date.now(),
   }).save();
 
-  const link = `${clientURL}/restore-passwd?token=${resetToken}&id=${id}`;
+  const link = `${clientURL}/restore-passwd?token=${hash}&id=${id}`;
+  console.log(link)
   sendEmail(
     user.email,
     "Password Reset Request",
@@ -109,12 +110,14 @@ const resetPasswordByEmail = async function (req, res) {
 };
 
 const resetPassword = async (req, res) => {
+  console.log("Entro a cambiar la contraseña con el token")
   id = req.body.id;
   token = req.body.token;
   password = req.body.password;
 
 
   let passwordResetToken = await Token.findOne({ userId: id });
+  console.log(passwordResetToken)
 
 
   if (!passwordResetToken) {
@@ -122,7 +125,7 @@ const resetPassword = async (req, res) => {
   }
 
   if (token != passwordResetToken.token) {
-    res.status(200).json("No existe token de restauracion de contraseña");
+    res.status(200).json("No existe un match de token de restauracion de contraseña");
   }
   const hash = await bcrypt.hash(password, Number(bcryptSalt));
   await Users.updateOne(

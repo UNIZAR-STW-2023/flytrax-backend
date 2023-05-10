@@ -4,6 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 const sendEmail = async (email, subject, payload, template) => {
+  console.log("Entro a mandar el email")
     try {
         // create reusable transporter object using the default SMTP transport
         const transporter = nodemailer.createTransport({
@@ -11,8 +12,7 @@ const sendEmail = async (email, subject, payload, template) => {
           port: 465,
           auth: {
             user: "flytrax.info@gmail.com",
-            //pass: "SergioBernal_JorgeHernandez_stw_2023",
-            pass: "kmdmbhddssnuahyk"
+            pass: "dnakqouwwlboaviy"
             
           },
         });
@@ -37,24 +37,16 @@ const sendEmail = async (email, subject, payload, template) => {
         
         transporter.sendMail(options(), (error, info) => {
           if (error) {
-
+            console.log(error)
           } else {
 
           }
         });
       } catch (error) {
-
+        console.log(error)
       }
 };
 
-/*
-Example:
-sendEmail(
-  "youremail@gmail.com,
-  "Email subject",
-  { name: "Eze" },
-  "./templates/email_template.handlebars"
-);
-*/
+
 
 module.exports = sendEmail;

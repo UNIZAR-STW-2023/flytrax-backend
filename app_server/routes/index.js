@@ -163,7 +163,7 @@ router
  *     tags:
  *       - Usuarios
  */
-    .post(ctrlUsers.verifyToken, ctrlUsers.resetPasswordByEmail);
+    .post(ctrlUsers.resetPasswordByEmail);
 
 router
     .route('/loginUsers')
@@ -287,7 +287,7 @@ router
  *       - Usuarios 
  * 
  */
-    .post(ctrlUsers.verifyToken, ctrlUsers.resetPassword);
+    .post(ctrlUsers.resetPassword);
 
 router
     .route('/banUsers')
