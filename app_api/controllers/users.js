@@ -97,7 +97,7 @@ const resetPasswordByEmail = async function (req, res) {
     createdAt: Date.now(),
   }).save();
 
-  const link = `${clientURL}/restore-passwd?token=${hash}&id=${id}`;
+  const link = `https://flytrax.es/restore-passwd?token=${hash}&id=${id}`;
   console.log(link)
   sendEmail(
     user.email,
