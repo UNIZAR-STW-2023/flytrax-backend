@@ -507,7 +507,7 @@ router
  *           type: object
  *           properties:
  *             email:
- *               type: integer
+ *               type: string
  *               description: email del usuario que crea el tema.
  *             title:
  *               type: string
