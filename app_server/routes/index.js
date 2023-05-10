@@ -17,7 +17,7 @@ router
  *     summary: Obtener lista de usuarios
  *     description: Retorna una lista de usuarios.
  *     security:
- *          - BearerAuth: []
+ *          - Authorization: []
  *     responses:
  *       200:
  *         description: OK. La lista de usuarios se ha obtenido correctamente.

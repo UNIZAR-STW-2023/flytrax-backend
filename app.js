@@ -17,12 +17,13 @@ const index = require("./app_server/routes/index");
 const apiRoutes = require("./app_api/routes/index");
 
 //API documentation
-var swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
 
-var app = express();
+const app = express();
 
-// swagger definition
-var swaggerDefinition = {
+// Define la especificación Swagger
+const swaggerDefinition = {
   info: {
     title: 'API de Flytrax',
     version: '1.0.0',
@@ -33,10 +34,10 @@ var swaggerDefinition = {
   schemes: ['https']
 };
 
-// options for the swagger docs
-var options = {
-  // import swaggerDefinitions 
-  swaggerDefinition: swaggerDefinition, 
+// Opciones para la especificación Swagger
+const options = {
+  swaggerDefinition,
+  apis: ['./app_server/routes/*.js'],
   securityDefinitions: {
     BearerAuth: {
       type: 'apiKey',
@@ -44,18 +45,15 @@ var options = {
       in: 'header',
     },
   },
-  // path to the API docs
-  apis: ['./app_server/routes/*.js'],
+  // Configuración del complemento de seguridad Swagger
+  security: [{ BearerAuth: [] }]
 };
 
-// initialize swagger-jsdoc
-var swaggerSpec = swaggerJSDoc(options);
+// Inicializa la especificación Swagger
+const swaggerSpec = swaggerJSDoc(options);
 
-app.get('/swagger.json', function(req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerSpec);
-});
-
+// Agrega el middleware para la documentación Swagger UI
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 //Función para el home
 app.get("/", (req, res) => {
