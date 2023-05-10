@@ -257,7 +257,7 @@ const loginUsers = function (req, res) {
                 "stw_2023!admin_"              );
               updateAdminToken(email,tokenAdmin)
               jsonResponse = {
-                status: "Sucessful",
+                status: "Successful",
                 email: postdata.email,
                 tokenUser: "",
                 tokenAdmin:tokenAdmin
