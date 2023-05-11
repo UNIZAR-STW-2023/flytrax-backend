@@ -17,6 +17,10 @@ const answersSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
+  },
+  nickname: {
+    type: String,
+    required: true,
   }
 });
 

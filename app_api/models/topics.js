@@ -13,6 +13,10 @@ const topicsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  nickname: {
+    type: String,
+    required: true,
+  },
   iata: {
     type: String,
     required: true,
