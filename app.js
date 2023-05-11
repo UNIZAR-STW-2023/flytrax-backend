@@ -17,27 +17,26 @@ const index = require("./app_server/routes/index");
 const apiRoutes = require("./app_api/routes/index");
 
 //API documentation
-const swaggerUi = require('swagger-ui-express');
-const swaggerJSDoc = require('swagger-jsdoc');
+var swaggerJSDoc = require('swagger-jsdoc');
 
-const app = express();
+var app = express();
 
-// Define la especificación Swagger
-const swaggerDefinition = {
+// swagger definition
+var swaggerDefinition = {
   info: {
     title: 'API de Flytrax',
     version: '1.0.0',
     description: 'Descripción de la API del proyecto Flytrax'
   },
-  host: 'flytrax-backend.vercel.app',
+  host: 'localhost:3000',
   basePath: '/',
-  schemes: ['https']
+  schemes: ['http']
 };
 
-// Opciones para la especificación Swagger
-const options = {
-  swaggerDefinition,
-  apis: ['./app_server/routes/*.js'],
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions 
+  swaggerDefinition: swaggerDefinition, 
   securityDefinitions: {
     BearerAuth: {
       type: 'apiKey',
@@ -45,15 +44,18 @@ const options = {
       in: 'header',
     },
   },
-  // Configuración del complemento de seguridad Swagger
-  security: [{ BearerAuth: [] }]
+  // path to the API docs
+  apis: ['./app_server/routes/*.js'],
 };
 
-// Inicializa la especificación Swagger
-const swaggerSpec = swaggerJSDoc(options);
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
 
-// Agrega el middleware para la documentación Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 
 //Función para el home
 app.get("/", (req, res) => {
