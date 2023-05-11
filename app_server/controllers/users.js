@@ -139,6 +139,7 @@ const postUsers = function (req, res) {
       })
       .catch((error) => {
         logger.error(`Error al introducir al usuario los usuarios en la llamada a ${path}: ${error}`);
+        res.status(409).json({"status": "Ya existe un usuario con ese email o nickname"})
       });
   }
 };

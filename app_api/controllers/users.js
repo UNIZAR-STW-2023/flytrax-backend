@@ -51,14 +51,24 @@ const postUsers = function (req, res) {
     gender: req.body.gender,
   };
 
-
-  // Insertamos el usuario en la colección Users
-  Users.create(user, function (results) {
-    res.status(200).json({
-      User: user,
+  Users.findOne({$or: [{email: user.email}, {nickname: user.nickname}]}, function (err, existingUser) {
+    if (err) {
+      return res.status(500).json({message: "Error buscando usuario en la base de datos"});
+    }
+    if (existingUser) {
+      return res.status(409).json({"status": "Ya existe un usuario con el mismo email o nickname"});
+    }
+    Users.create(user, function (err, newUser) {
+      if (err) {
+        return res.status(500).json({message: "Error insertando usuario en la base de datos"});
+      }
+      res.status(200).json({
+        User: newUser,
+      });
     });
   });
 };
+
 
 const getUsersByEmail = function (req, res) {
   const user = {

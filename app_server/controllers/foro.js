@@ -14,7 +14,6 @@ const createTopics = function (req, res) {
 
   const postdata = {
     email: req.body.email,
-    title: req.body.title,
     description: req.body.description,
     iata: req.body.iata,
     respuestas: req.body.respuestas

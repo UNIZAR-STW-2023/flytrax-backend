@@ -1,4 +1,5 @@
 const Answers = require('../models/answers');
+const Users = require('../models/users');
 const Topics = require('../models/topics');
 
 //const clientURL = "http://localhost:3000";
@@ -10,25 +11,29 @@ const createTopics = async (req, res) => {
 
 console.log("Entro a crear el topico craack")
   email = req.body.email
-  title = req.body.title
   description = req.body.description
   respuestas = req.body.respuestas
   iata = req.body.iata
 
   const postData = {
     email: email,
-    title: title,
     description: description,
     iata: iata,
     respuestas: respuestas
   }
+
+  //Conseguir el nickname
+  const user = await Users.findOne({ email: email });
+  const nickname = user.nickname;
+
+
   console.log(postData)
   Topics.create(postData, function (results) {
 
     res.status(200).json({
       "status": "Creado correctamente",
       "email": email,
-      "title": title,
+      "nickname": nickname,
       "description": description,
       "iata": iata,
       "respuestas": respuestas
