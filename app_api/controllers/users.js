@@ -113,7 +113,7 @@ const resetPasswordByEmail = async function (req, res) {
     user.email,
     "Password Reset Request",
     { name: user.email, link: link },
-    "./templates/email_template.handlebars"
+    "./templates/email_template.html"
 
   );
 
