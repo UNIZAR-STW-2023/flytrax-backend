@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
 const Admins = require("../models/admins");
+const axios = require("axios");
 
 const bcryptSalt = 10;
 //const clientURL = "localhost:3000";
@@ -269,12 +270,33 @@ const deleteFavAirports = async (req, res) => {
   });
 };
 
-const getFavAirports = function (req, res) {
+
+const getFavAirports = async (req, res) => {
   console.log(req.params.email)
-  FavAirports.distinct("iata", {email: req.params.email}).then(function (results) {
-    res.status(200).json(results);
-  });
+  const results = await FavAirports.distinct("iata", {email: req.params.email});
+  const airports = [];
+  for (let i = 0; i < results.length; i++) {
+    const res = await axios.get('https://airlabs.co/api/v9/airports', {
+      params: {
+        api_key: '2709a68a-9e16-4c2b-9cd1-fc909726bc3d',
+        iata_code: results[i]
+      }
+    });
+    const datos = res.data.response;
+    const airportName = datos[0].name
+    const country_code = datos[0].country_code
+    const airport = {
+      name: airportName,
+      iata: results[i],
+      country_code: country_code
+    };
+    airports.push(airport);
+  }
+  res.status(200).json(airports);
 };
+
+
+
 
 
 
