@@ -10,7 +10,8 @@ const axios = require("axios");
 
 const bcryptSalt = 10;
 //const clientURL = "localhost:3000";
-const clientURL = "flytrax-backend.vercel.app"
+//const clientURL = "flytrax-backend.vercel.app"
+const clientURL = "https://flytrax-backend.vercel.app"
 
 const _buildUsersList = function (results) {
   let users = [];
