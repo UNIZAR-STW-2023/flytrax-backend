@@ -91,7 +91,7 @@ const getUsers = function (req, res) {
   });
 };
 
-/* POST users */
+/* POST users  */
 const postUsers = function (req, res) {
   const path = "/api/users";
   const url = apiOptions.server + path;
