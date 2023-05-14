@@ -25,6 +25,10 @@ router
   .post(ctrlUsers.loginUsers);
 
 router
+  .route('/nextLogin')
+  .post(ctrlUsers.nextLogin);
+
+router
   .route('/resetPassword')
   .post(ctrlUsers.resetPassword);
 

@@ -221,6 +221,45 @@ router
     .post(ctrlUsers.loginUsers);
 
 router
+    .route('/nextLogin')
+/**
+ * @swagger
+ * /nextLogin:
+ *   post:
+ *     summary: Iniciar sesión de usuario.
+ *     description: Iniciar sesión de usuario en la aplicación.
+ *     responses:
+ *       200:
+ *         description: OK. Inicio de sesión exitoso.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status:
+ *               type: string
+ *               description: El estado de la respuesta.
+ *             email:
+ *               type: string
+ *               description: El email del usuario.
+ *             tokenUser:
+ *               type: string
+ *               description: El token de autenticación del usuario.
+ *             tokenAdmin:
+ *               type: string
+ *               description: El token de autenticación del administrador.
+ *       400:
+ *         description: Solicitud incorrecta. El formato de usuario es incorrecto.
+ *       401:
+ *         description: No autorizado. Email o contraseña incorrectos.
+ *       404:
+ *         description: No encontrado. No se encontró el email proporcionado en la base de datos.
+ *       500:
+ *         description: Error del servidor. Ha ocurrido un error al iniciar sesión en el usuario.
+ *     tags:
+ *       - Usuarios 
+ */
+    .post(ctrlUsers.nextLogin);
+
+router
     .route('/resetPassword')
 /**
  * @swagger

@@ -326,6 +326,35 @@ const loginUsers = function (req, res) {
   }
 };
 
+/* nextLogin */
+const nextLogin = function (req, res) {
+  const path = "/api/nextLogin";
+  const url = apiOptions.server + path;
+  const postdata = {
+    email: req.body.email,
+    provider: req.body.provider
+  };
+
+  axios
+    .post(url, postdata)
+    .then((response) => {
+      if (response.data) {
+        logger.info(`Se ha logueado correctamente al usuario con email ${postdata.email} en la llamada a ${path}`);
+        res.status(200).json(response.data);
+      } else {
+        logger.warn(`No se ha podido loguear al usuario con email ${postdata.email} en la llamada a ${path}`);
+        res
+          .status(404)
+          .send("No se ha podido loguear al usuario");
+      }
+    })
+    .catch((error) => {
+      logger.error(`Ha ocurrido un error mientras se logueaba al usuario ${postdata.email}: ${error} en la llamada a ${path}`);
+
+    });
+};
+
+
 /* banUsers */
 const banUsers = function (req, res) {
   const path = "/api/banUsers";
@@ -568,6 +597,7 @@ module.exports = {
   getUsersByEmail,
   resetPasswordByEmail,
   loginUsers,
+  nextLogin,
   banUsers,
   unBanUsers,
   getBannedUsers,

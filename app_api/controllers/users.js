@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 const Users = mongoose.model("Users");
 const Token = mongoose.model("Token");
+const TokenAuth = require('../../app_api/models/tokenAuth');
 const FavAirports = require('../models/favAirports');
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const sendEmail = require("../Utils/emails.js");
 const Admins = require("../models/admins");
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
+
 
 const bcryptSalt = 10;
 //const clientURL = "localhost:3000";
@@ -247,6 +250,38 @@ const saveAirports = async (req, res) => {
   });
 };
 
+const nextLogin = async (req, res) => {
+console.log("eyyyyyyyyy")
+  email = req.body.email;
+  provider = req.body.provider
+
+  try {
+      //Creamos el token de JWT
+  let tokenUser = jwt.sign(
+    {
+      email,
+    },
+    "stw_2023!",
+    { expiresIn: "48h" }
+  );
+  //Lo metemos en la BD
+  const posdata_token = {
+    email:email,
+    tokenAuth:tokenUser
+  }
+  console.log(posdata_token)
+  TokenAuth.create(posdata_token, function () {
+    res.status(200);
+  });
+  res.status(200).json({"status":"Logueado",
+                        "TokenAuth": tokenUser})
+  } catch (error) {
+    console.log(error)
+    res.status(400).json({"status":"Error"})
+  }
+
+};
+
 const deleteFavAirports = async (req, res) => {
 
   const email = req.body.email;
@@ -339,6 +374,7 @@ module.exports = {
   getUsersByEmail,
   resetPasswordByEmail,
   loginUsers,
+  nextLogin,
   resetPassword,
   banUsers,
   unBanUsers,
