@@ -8,8 +8,8 @@ const logger = require('../utils/logger');
 //Con esto cambiamos el nodo
 const apiOptions = {
   //server: "http://localhost:3000",
-  //server : 'https://flytrax-backend.vercel.app' 
-  server: 'flytrax-backend-production.up.railway.app'
+  server : 'https://flytrax-backend.vercel.app' 
+  //server: 'flytrax-backend-production.up.railway.app'
 };
 const saltRounds = 10;
 

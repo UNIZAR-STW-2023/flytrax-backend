@@ -3,8 +3,8 @@ const Users = require('../models/users');
 const Topics = require('../models/topics');
 
 //const clientURL = "http://localhost:3000";
-//const clientURL = "https://flytrax-backend.vercel.app"
-const clientURL = "flytrax-backend-production.up.railway.app"
+const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "flytrax-backend-production.up.railway.app"
 /* CREATE TOPICS */
 
 const createTopics = async (req, res) => {

@@ -3,8 +3,8 @@ const moment = require('moment');
 const Users = mongoose.model("Users");
 
 //const clientURL = "http://localhost:3000";
-//const clientURL = "https://flytrax-backend.vercel.app"
-const clientURL = "flytrax-backend-production.up.railway.app"
+const clientURL = "https://flytrax-backend.vercel.app"
+//const clientURL = "flytrax-backend-production.up.railway.app"
 
 const getUsersByGenre = async (req, res) => {
 
