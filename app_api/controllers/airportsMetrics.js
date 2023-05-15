@@ -9,14 +9,14 @@ const getFlightsEachDay = async (req, res) => {
   try {
     const responseArrival = await axios.get('https://airlabs.co/api/v9/routes', {
       params: {
-        api_key: '2709a68a-9e16-4c2b-9cd1-fc909726bc3d',
+        api_key: '9e6e981c-09fa-42df-91ba-fe4f0aacc4aa',
         arr_iata: req.params.iata
       }
     });
 
     const responseDeparture = await axios.get('https://airlabs.co/api/v9/routes', {
       params: {
-        api_key: '2709a68a-9e16-4c2b-9cd1-fc909726bc3d',
+        api_key: '9e6e981c-09fa-42df-91ba-fe4f0aacc4aa',
         dep_iata: req.params.iata
       }
     });
