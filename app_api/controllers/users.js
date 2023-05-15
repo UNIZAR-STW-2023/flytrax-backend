@@ -115,18 +115,22 @@ const resetPasswordByEmail = async function (req, res) {
   const link = `https://flytrax.es/restore-passwd?token=${hash}&id=${id}`;
   console.log(link)
 //Aqui enviamos el email
+try {
+  client.sendEmailWithTemplate({
+    "From": "758723@unizar.es",
+    "To": user.email,
+    "TemplateAlias": "password-reset",
+    "TemplateModel": {
+      "product_url": "flytrax.es",
+      "product_name": "Flytrax ®",
+      "name": user.email,
+      "action_url": link,
+    }
+  });
+} catch (error) {
+  console.log(error)
+}
 
-client.sendEmailWithTemplate({
-  "From": "758723@unizar.es",
-  "To": user.email,
-  "TemplateAlias": "password-reset",
-  "TemplateModel": {
-    "product_url": "flytrax.es",
-    "product_name": "Flytrax ®",
-    "name": user.email,
-    "action_url": link,
-  }
-});
   res.status(200).json({ link: link });
 };
 
