@@ -9,7 +9,7 @@ const Admins = require("../models/admins");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const postmark = require("postmark");
-var client = new postmark.ServerClient("019e2269-61c1-419f-85e5-fed8bc7fe376");
+var client = new postmark.ServerClient("019e2269-61c1-419f-85e5-fed8bc7fe376"); //Api del server que manda los emails
 
 
 const bcryptSalt = 10;
