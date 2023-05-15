@@ -127,11 +127,14 @@ try {
       "action_url": link,
     }
   });
+  res.status(200).json({ link: link });
+
 } catch (error) {
   console.log(error)
+  res.status(400).json({"status": "error"});
+
 }
 
-  res.status(200).json({ link: link });
 };
 
 const resetPassword = async (req, res) => {
