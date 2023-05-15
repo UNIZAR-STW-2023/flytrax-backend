@@ -5,10 +5,11 @@ const TokenAuth = require('../../app_api/models/tokenAuth');
 const FavAirports = require('../models/favAirports');
 const crypto = require("crypto");
 const bcrypt = require("bcrypt");
-const sendEmail = require("../Utils/emails.js");
 const Admins = require("../models/admins");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
+const postmark = require("postmark");
+var client = new postmark.ServerClient("019e2269-61c1-419f-85e5-fed8bc7fe376");
 
 
 const bcryptSalt = 10;
@@ -113,14 +114,19 @@ const resetPasswordByEmail = async function (req, res) {
 
   const link = `https://flytrax.es/restore-passwd?token=${hash}&id=${id}`;
   console.log(link)
-  sendEmail(
-    user.email,
-    "Password Reset Request",
-    { name: user.email, link: link },
-    "./templates/email_template.html"
+//Aqui enviamos el email
 
-  );
-
+client.sendEmailWithTemplate({
+  "From": "758723@unizar.es",
+  "To": user.email,
+  "TemplateAlias": "password-reset",
+  "TemplateModel": {
+    "product_url": "flytrax.es",
+    "product_name": "Flytrax ®",
+    "name": user.email,
+    "action_url": link,
+  }
+});
   res.status(200).json({ link: link });
 };
 
@@ -149,12 +155,16 @@ const resetPassword = async (req, res) => {
     { new: true }
   );
   const user = await Users.findById({ _id: id });
-  sendEmail(
-    user.email,
-    "Contraseña actualizada correctamente",
-    { name: user.email },
-    "./templates/email_template_reset.handlebars"
-  );
+  client.sendEmailWithTemplate({
+    "From": "758723@unizar.es",
+    "To": user.email,
+    "TemplateAlias": "password-reset-1",
+    "TemplateModel": {
+      "product_url": "flytrax.es",
+      "product_name": "Flytrax ®",
+      "name": user.email,
+    }
+  });
   await passwordResetToken.deleteOne();
   res.json("Contraseña actualizada correctamente");
 };
