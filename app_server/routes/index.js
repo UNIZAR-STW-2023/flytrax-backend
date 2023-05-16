@@ -1040,63 +1040,6 @@ router
 
 //Stats for users
 router
-  .route('/getUsersByCountryForUsers')
-/**
- * @swagger
- * /getUsersByCountryForUsers:
- *   get:
- *     summary: Obtiene la lista de usuarios por país
- *     tags: [Metricas para usuarios]
- *     responses:
- *       200:
- *         description: Lista de usuarios por país obtenida correctamente
- *       400:
- *         description: No se ha podido recuperar la lista de usuarios por país
- */
-  .get(ctrlUsers.verifyToken, ctrlUsers.getUsersByCountryForUsers)
-
-router
-  .route('/getAirportsByNumberOfSaves')
-/**
- * @swagger
- * /getAirportsByNumberOfSaves:
- *   get:
- *     summary: Retorna una lista de aeropuertos ordenados por número de veces que han sido guardados como favoritos por los usuarios.
- *     tags: 
- *       - Metricas para usuarios
- *     responses:
- *       200:
- *         description: Lista de aeropuertos ordenados por número de veces que han sido guardados como favoritos.
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   airportCode:
- *                     type: string
- *                     description: El código del aeropuerto.
- *                   airportName:
- *                     type: string
- *                     description: El nombre del aeropuerto.
- *                   numberOfSaves:
- *                     type: integer
- *                     description: El número de veces que ha sido guardado como favorito.
- *       400:
- *         description: No se ha podido recuperar la lista de aeropuertos.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   description: Mensaje de error.
- */
-  .get(ctrlUsers.verifyToken, ctrlUsers.getAirportsByNumberOfSaves)
-
-router
   .route('/getFlightsEachDay/:iata')
 /**
  * @swagger

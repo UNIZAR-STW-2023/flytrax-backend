@@ -349,43 +349,6 @@ const getFavAirports = async (req, res) => {
 };
 
 
-
-
-
-
-
-const getUsersByCountryForUsers = async (req, res) => {
-  const users = await Users.find();
-  let usersByCountry = {};
-  users.forEach(user => {
-    const country = user.country;
-    
-    if (usersByCountry.hasOwnProperty(country)) {
-      usersByCountry[country]++;
-    } else {
-      usersByCountry[country] = 1;
-    }
-  });
-    res.json(usersByCountry);
-};
-
-
-const getAirportsByNumberOfSaves = async (req, res) => {
-  const favAirports = await FavAirports.find();
-    let airportsByNumberOfSaves = {};
-    favAirports.forEach(favAirports => {
-    const iata = favAirports.iata;
-        if (airportsByNumberOfSaves.hasOwnProperty(iata)) {
-      airportsByNumberOfSaves[iata]++;
-    } else {
-      airportsByNumberOfSaves[iata] = 1;
-    }
-  });
-  
-  // Envía la respuesta al cliente con los conteos de aeropuertos guardados en favoritos
-  res.json(airportsByNumberOfSaves);
-};
-
 module.exports = {
   getUsers,
   postUsers,
@@ -399,7 +362,5 @@ module.exports = {
   getBannedUsers,
   saveAirports,
   deleteFavAirports,
-  getFavAirports,
-  getUsersByCountryForUsers,
-  getAirportsByNumberOfSaves
+  getFavAirports
 };
