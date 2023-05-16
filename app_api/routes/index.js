@@ -1,3 +1,9 @@
+/*
+  File's name: index.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const express = require('express');
 const router = express.Router();
 const ctrlUsers = require('../controllers/users');
@@ -109,15 +115,6 @@ router
 router
   .route('/getUsersRegisteredByPeriod')
   .get(ctrlUserMetrics.getUsersRegisteredByPeriod)
-
-//Stats for users
-router
-  .route('/getUsersByCountryForUsers')
-  .get(ctrlUsers.getUsersByCountryForUsers)
-
-router
-  .route('/getAirportsByNumberOfSaves')
-  .get(ctrlUsers.getAirportsByNumberOfSaves)
 
 
 module.exports = router;

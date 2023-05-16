@@ -1,3 +1,9 @@
+/*
+  File's name: admin.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const axios = require("axios");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -7,7 +13,7 @@ const logger = require('../utils/logger');
 
 const apiOptions = {
   //server: "http://localhost:3000",
-  server : 'https://flytrax-backend.vercel.app' 
+  server : 'https://flytrax-backend.vercel.app'
 };
 const saltRounds = 10;
 

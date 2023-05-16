@@ -1,3 +1,9 @@
+/*
+  File's name: users.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const axios = require("axios");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -548,49 +554,6 @@ const createTopics = function (req, res) {
 };
 
 
-const getUsersByCountryForUsers = async (req, res) => {
-  const path = '/api/getUsersByCountryForUsers';
-  const url = apiOptions.server + path;
-
-  axios
-  .get(url, {})
-  .then((response) => {
-    if (response.data) {
-      logger.info(`Se ha recuperado la lista de usuarios por pais correctamente en la llamada a ${path}`);
-      res.status(200).json(response.data);
-    }else{
-      logger.info(`No se ha podido recuperar la lista de usuarios por pais correctamente en la llamada a ${path}`);
-      res.status(400).json("No se ha podido recuperar la lista de usuarios por pais");
-
-    }
-  })
-  .catch((error) => {
-    logger.error(`Error al recuperar la lista de usuarios por pais: ${error.message} en la llamada a ${path}`);
-  });
-};
-
-const getAirportsByNumberOfSaves = async (req, res) => {
-  const path = '/api/getAirportsByNumberOfSaves';
-  const url = apiOptions.server + path;
-
-  axios
-  .get(url, {})
-  .then((response) => {
-    if (response.data) {
-      logger.info(`Se ha recuperado la lista de aeropuertos por número de veces guardados en favoritos correctamente en la llamada a ${path}`);
-      res.status(200).json(response.data);
-    }else{
-      logger.info(`No se ha podido recuperar la lista de aeropuertos por número de veces guardados en favoritos correctamente en la llamada a ${path}`);
-      res.status(400).json("No se ha podido recuperar la lista de aeropuertos por número de veces guardados en favoritos");
-
-    }
-  })
-  .catch((error) => {
-    logger.error(`Error al recuperar la lista de aeropuertos por número de veces guardados en favoritos: ${error.message} en la llamada a ${path}`);
-  });
-};
-
-
 module.exports = {
   getUsers,
   postUsers,
@@ -606,7 +569,5 @@ module.exports = {
   deleteFavAirports,
   getFavAirports,
   createTopics,
-  verifyToken,
-  getUsersByCountryForUsers,
-  getAirportsByNumberOfSaves
+  verifyToken
 };

@@ -1,3 +1,9 @@
+/*
+  File's name: admins.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const mongoose = require('mongoose');
 
 const adminsSchema = new mongoose.Schema({

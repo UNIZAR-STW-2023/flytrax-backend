@@ -1,3 +1,9 @@
+/*
+  File's name: emails.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const nodemailer = require("nodemailer");
 const fs = require("fs");
 const path = require("path");

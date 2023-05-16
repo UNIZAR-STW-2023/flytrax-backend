@@ -1,3 +1,9 @@
+/*
+  File's name: usersMetrics.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const axios = require("axios");
 
 

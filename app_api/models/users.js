@@ -1,3 +1,9 @@
+/*
+  File's name: users.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 BCRYPT_SALT=10;

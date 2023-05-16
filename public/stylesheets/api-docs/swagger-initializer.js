@@ -1,3 +1,9 @@
+/*
+  File's name: swagger-initializer.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 window.onload = function() {
   //<editor-fold desc="Changeable Configuration Block">
 

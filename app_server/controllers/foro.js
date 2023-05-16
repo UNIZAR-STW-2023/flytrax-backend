@@ -1,3 +1,9 @@
+/*
+  File's name: foro.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const axios = require("axios");
 const logger = require('../utils/logger');
 

@@ -1,3 +1,9 @@
+/*
+  File's name: certRenewer.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const fs = require('fs');
 const { execSync } = require('child_process');
 
