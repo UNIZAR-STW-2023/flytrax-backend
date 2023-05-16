@@ -330,7 +330,7 @@ const getFavAirports = async (req, res) => {
   for (let i = 0; i < results.length; i++) {
     const res = await axios.get('https://airlabs.co/api/v9/airports', {
       params: {
-        api_key: '6fe53e39-c8b3-48ff-8ed9-30f8c9862a8c',
+        api_key: '2709a68a-9e16-4c2b-9cd1-fc909726bc3d',
         iata_code: results[i]
       }
     });
