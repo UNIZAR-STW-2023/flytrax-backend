@@ -1,3 +1,9 @@
+/*
+  File's name: index.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 var express = require('express');
 var router = express.Router();
 const ctrlUsers = require("../controllers/users");

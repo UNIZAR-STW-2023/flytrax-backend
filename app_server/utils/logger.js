@@ -1,3 +1,9 @@
+/*
+  File's name: logger.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const winston = require('winston');
 
 const logger = winston.createLogger({

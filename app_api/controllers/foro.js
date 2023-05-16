@@ -1,12 +1,17 @@
+/*
+  File's name: foro.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const Answers = require('../models/answers');
 const Users = require('../models/users');
 const Topics = require('../models/topics');
 
 //const clientURL = "http://localhost:3000";
 const clientURL = "https://flytrax-backend.vercel.app"
-//const clientURL = "flytrax-backend-production.up.railway.app"
-/* CREATE TOPICS */
 
+/* CREATE TOPICS */
 const createTopics = async (req, res) => {
 
   email = req.body.email

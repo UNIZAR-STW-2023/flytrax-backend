@@ -1,3 +1,9 @@
+/*
+  File's name: app.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 var createError = require("http-errors");
 var express = require("express");
 

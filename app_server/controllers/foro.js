@@ -1,3 +1,9 @@
+/*
+  File's name: foro.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const axios = require("axios");
 const logger = require('../utils/logger');
 
@@ -6,7 +12,6 @@ const logger = require('../utils/logger');
 const apiOptions = {
   //server: "http://localhost:3000",
   server : 'https://flytrax-backend.vercel.app' 
-  //server: 'flytrax-backend-production.up.railway.app'
 };
 /* CREATE TOPICS */
 const createTopics = function (req, res) {

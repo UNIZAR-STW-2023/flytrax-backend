@@ -1,3 +1,9 @@
+/*
+  File's name: users.js
+  Authors: Sergio Hernández & Jorge Bernal 
+  Date: 16/05/2023
+*/
+
 const mongoose = require("mongoose");
 const Users = mongoose.model("Users");
 const Token = mongoose.model("Token");
@@ -15,7 +21,6 @@ var client = new postmark.ServerClient("019e2269-61c1-419f-85e5-fed8bc7fe376"); 
 const bcryptSalt = 10;
 //const clientURL = "localhost:3000";
 const clientURL = "flytrax-backend.vercel.app";
-//const clientURL = "flytrax-backend-production.up.railway.app"
 
 const _buildUsersList = function (results) {
   let users = [];
