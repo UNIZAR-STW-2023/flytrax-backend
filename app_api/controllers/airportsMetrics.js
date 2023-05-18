@@ -5,7 +5,7 @@
 */
 
 const axios = require("axios");
-
+require('dotenv').config();
 const apiOptions = {
   //server: "http://localhost:3000",
   server : 'https://flytrax-backend.vercel.app'
@@ -15,14 +15,14 @@ const getFlightsEachDay = async (req, res) => {
   try {
     const responseArrival = await axios.get('https://airlabs.co/api/v9/routes', {
       params: {
-        api_key: '9e6e981c-09fa-42df-91ba-fe4f0aacc4aa',
+        api_key: process.env.API_KEY,
         arr_iata: req.params.iata
       }
     });
 
     const responseDeparture = await axios.get('https://airlabs.co/api/v9/routes', {
       params: {
-        api_key: '9e6e981c-09fa-42df-91ba-fe4f0aacc4aa',
+        api_key: process.env.API_KEY,
         dep_iata: req.params.iata
       }
     });

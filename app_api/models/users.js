@@ -5,9 +5,7 @@
 */
 
 const mongoose = require('mongoose');
-const bcrypt = require("bcrypt");
 BCRYPT_SALT=10;
-const bcryptSalt = process.env.BCRYPT_SALT;
 
 
 const usersSchema = new mongoose.Schema({

@@ -15,6 +15,7 @@ const Admins = require("../models/admins");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const postmark = require("postmark");
+require('dotenv').config();
 var client = new postmark.ServerClient("019e2269-61c1-419f-85e5-fed8bc7fe376"); //Api del server que manda los emails
 
 
@@ -336,7 +337,7 @@ const getFavAirports = async (req, res) => {
   for (let i = 0; i < results.length; i++) {
     const res = await axios.get('https://airlabs.co/api/v9/airports', {
       params: {
-        api_key: '9e6e981c-09fa-42df-91ba-fe4f0aacc4aa',
+        api_key: process.env.API_KEY,
         iata_code: results[i]
       }
     });
